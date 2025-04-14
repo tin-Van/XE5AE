@@ -1,0 +1,53 @@
+@charset "UTF-8";
+
+body {
+	width: 100%;
+	height: 100vh;
+	background-image: linear-gradient(rgba(0, 0, 0, 0.75), rgba(0, 0, 0, 0.75)), url(galaxy.jpg);
+	background-size: cover;
+	background-position: center;
+
+}
+.dropdown-menu {
+	background-color: transparent;
+}
+.navbar ul li {
+	list-style: none;
+}
+
+ul li:hover {
+	text-decoration: underline rgb(0, 255, 255) 2px;
+	text-underline-offset: 5px;
+	transition: 1s;
+}
+.dropdown-menu li a:hover {
+	background-color: black;
+}.seat {
+    transition: all 0.5s ease-in-out;
+}
+
+.seat-selected {
+    background-color: #ffcc00; /* Màu nền khi ghế được chọn */
+    transform: scale(1.1); /* Phóng to ghế khi được chọn */
+}
+datalist {
+  position: absolute;
+  max-height: 20em;
+  border: 0 none;
+  overflow-x: hidden;
+  overflow-y: auto;
+}
+
+datalist option {
+  font-size: 0.8em;
+  padding: 0.3em 1em;
+  background-color: #ccc;
+  cursor: pointer;
+}
+
+/* active option styling */
+datalist option:hover, datalist option:focus {
+  color: #fff;
+  background-color: #036;
+  outline: 0 none;
+}

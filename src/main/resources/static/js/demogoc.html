@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<title>New Trip</title>
+</head>
+<body>
+	<h1>Create New Trip</h1>
+	<form th:action="@{/manager/trip}" th:object="${trip}" method="post">
+		<input type="hidden" th:field="*{id}">
+		<label for="departureDate">Ngày Đi:</label> <input type="date"
+			th:field="*{departureDate}"
+			th:value="${#temporals.format(trip.departureDate, 'yyyy-MM-dd')}"
+			required
+			min="${#temporals.format(#calendars.createNow(), 'yyyy-MM-dd')}" />
+		<p th:if="${#fields.hasErrors('departureDate')}"
+			th:errors="*{departureDate}"></p>
+		<br /> <label for="arrivalTime">Arrival Time:</label> <input
+			type="time" id="arrivalTime" th:field="*{startTime}" /> <br /> <label
+			for="endTime">endTime:</label> <input type="time" id="endTime"
+			th:field="*{endTime}" /> <br /> <label for="price">Price:</label> <input
+			type="number" id="price" th:field="*{price}" /> <br /> <label
+			for="bus">Bus:</label> <select id="bus" th:field="*{bus.id}">
+			<option th:each="bus : ${buslist}" th:value="${bus.id}"
+				th:text="${bus.name}"></option>
+		</select> <br /> <label for="route">Tuyến đường:</label> 
+		<select id="route"
+			th:field="*{route.id}" onchange="loadStations()">
+			<option value="0">Vui lòng chọn tuyến đường</option>
+			<option th:each="route : ${routes}" th:value="${route.id}"
+				th:text="${route.departure}+' - '+${route.destination}"></option>
+		</select> <br /> <br />
+		<div id="stationsContainer"></div>
+		<button type="submit">Save</button>
+	</form>
+	<script>
+	function loadStations() {
+	    var routeId = document.getElementById("route").value;
+	    if (routeId === "0") {
+	        document.getElementById("stationsContainer").innerHTML = "<p>Vui lòng chọn tuyến đường.</p>";
+	        return;
+	    }
+	    document.getElementById("stationsContainer").innerHTML = "<p>Đang tải...</p>";
+		fetch('/manager/route/' + routeId + '/stations')
+    	.then(response => {
+        if (!response.ok) {
+            throw new Error('Network response was not ok');
+        }
+        return response.json();
+    	})
+   		 .then(stations => {
+    	   var stationsContainer = document.getElementById('stationsContainer');
+           stationsContainer.innerHTML = ''; // Xóa nội dung cũ
+           stations.forEach(station => {
+               var stationDiv = document.createElement('div');
+               stationDiv.innerHTML = `
+                   <input type="checkbox" name="stationIds" value="${station.id}" id="station_${station.id}"> 
+                   <label for="station_${station.id}">${station.name} - ${station.location.name}</label>
+                   <input type="number" name="stationOrder_${station.id}" placeholder="Thứ tự" min="1">
+                   <input type="time" name="stopTime_${station.id}" placeholder="Thời gian dừng">
+               `;
+               stationsContainer.appendChild(stationDiv);
+           });
+      
+    		})
+    		.catch(error => {
+    			console.error('Error:', error);
+                document.getElementById("stationsContainer").innerHTML = "<p>Có lỗi xảy ra khi tải danh sách trạm dừng.</p>";
+    		});}
+	</script>
+</body>
+</html>

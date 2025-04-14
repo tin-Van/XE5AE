@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html xmlns:th="https://www.thymeleaf.org"
+	xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity6">
+<head>
+<meta charset="UTF-8">
+</head>
+<body th:fragment="policy">
+<div class="mt-2 flex h-96 justify-center overflow-y-auto rounded-b-xl bg-[#FBFBFB] px-1 pb-4 scrollable-content">
+    <div class="overflow-auto">
+        <div class="flex flex-col">
+            <div class="px-4 py-2">
+                <div class="pb-2 text-lg font-medium">Chính sách huỷ vé</div>
+                <div class="flex w-full flex-col">
+                    <div class="content-editor has-bullet no-margin text-[15px]">
+                        <ul>
+                            <li>
+                                <p>Chỉ được chuyển đổi vé 1 lần duy nhất</p>
+                            </li>
+                            <li>
+                                <p>Chi phí hủy vé từ 10% – 30% giá vé tùy thuộc thời gian hủy vé so với giờ khởi hành
+                                    ghi trên vé và số lượng vé cá nhân/tập thể áp dụng theo các quy định hiện hành.</p>
+                            </li>
+                            <li>
+                                <p>Quý khách khi có nhu cầu muốn thay đổi hoặc hủy vé đã thanh toán, cần liên hệ với
+                                    Trung tâm tổng đài 1900 6067 hoặc quầy vé chậm nhất trước 24h so với giờ xe khởi
+                                    hành được ghi trên vé, trên email hoặc tin nhắn để được hướng dẫn thêm.</p>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="flex flex-col">
+            <div class="divide h-[6px] bg-[#F7F7F7]"></div>
+            <div class="px-4 py-2">
+                <div class="pb-2 text-lg font-medium">Yêu cầu khi lên xe</div>
+                <div class="content-editor has-bullet no-margin text-[15px]">
+                    <ul>
+                        <li>
+                            <p>Có mặt tại Văn phòng/Bến xe (Địa điểm xe đón trực tiếp) trước 30 phút để làm thủ tục lên
+                                xe (đối với ngày lễ tết cần ra trước 60 phút).</p>
+                        </li>
+                        <li>
+                            <p>Xuất trình thông tin vé được gửi qua SMS/Email/Futa App hoặc liên hệ quầy vé để nhận
+                                thông tin vé trước khi lên xe.</p>
+                        </li>
+                        <li>
+                            <p>Không mang thức ăn/đồ uống có mùi lên xe.</p>
+                        </li>
+                        <li>
+                            <p>Không hút thuốc, không sử dụng đồ uống có cồn hoặc sử dụng chất kích thích trên xe.</p>
+                        </li>
+                        <li>
+                            <p>Không mang các vật dễ cháy nổ lên xe.</p>
+                        </li>
+                        <li>
+                            <p>Không vứt rác trên xe.</p>
+                        </li>
+                        <li>
+                            <p>Không mang động vật lên xe.</p>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <div class="flex flex-col">
+            <div class="divide h-[6px] bg-[#F7F7F7]"></div>
+            <div class="px-4 py-2">
+                <div class="pb-2 text-lg font-medium">Hành lý xách tay</div>
+                <div class="content-editor has-bullet no-margin text-[15px]">
+                    <ul>
+                        <li>
+                            <p style="column-count: 1">Tổng trọng lượng hành lý không vượt quá 20kg</p>
+                        </li>
+                        <li>
+                            <p style="column-count: 1">Không vận chuyển hàng hoá cồng kềnh</p>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <div class="flex flex-col">
+            <div class="divide h-[6px] bg-[#F7F7F7]"></div>
+            <div class="px-4 py-2">
+                <div class="pb-2 text-lg font-medium">Trẻ em dưới 6 tuổi và phụ nữ có thai</div>
+                <div class="content-editor has-bullet no-margin text-[15px]">
+                    <ul>
+                        <li>
+                            <p>Trẻ em dưới 6 tuổi, cao từ 1.3m trở xuống, cân nặng dưới 30kg thì không phải mua vé.</p>
+                        </li>
+                        <li>
+                            <p>Trong trường hợp trẻ em không thoả 1 trong 3 tiêu chí trên sẽ mua 01 vé tương đương với
+                                người lớn.</p>
+                        </li>
+                        <li>
+                            <p>Mỗi người lớn sẽ đi kèm tối đa một trẻ em.</p>
+                        </li>
+                        <li>
+                            <p>Phụ nữ có thai cần đảm bảo sức khoẻ trong suốt quá trình di chuyển.</p>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <div class="flex flex-col">
+            <div class="divide h-[6px] bg-[#F7F7F7]"></div>
+            <div class="px-4 py-2">
+                <div class="pb-2 text-lg font-medium">Vé đón đường</div>
+                <div class="content-editor has-bullet no-margin text-[15px]">
+                    <ul>
+                        <li>
+                            <p>Trường hợp có nhu cầu lên xe dọc đường, Quý khách vui lòng liên hệ tổng đài 19006067 để
+                                đăng kí trước ít nhất 2 tiếng so với giờ xe khởi hành và vui lòng chuẩn bị hành lý nhỏ
+                                gọn (tối đa 20kg).</p>
+                        </li>
+                        <li>
+                            <p>Lưu ý, chúng tôi chỉ hỗ trợ đón ở một số địa điểm thuận tiện nằm trên lộ trình</p>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+	<!-- <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script> -->
+
+</body>
+</html>

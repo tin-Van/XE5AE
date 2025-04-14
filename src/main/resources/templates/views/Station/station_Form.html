@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html xmlns:th="https://www.thymeleaf.org"
+      xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity6">
+<head>
+    <title>Station</title>
+    <meta charset="UTF-8">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/css/select2.min.css" rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/boxicons@latest/css/boxicons.min.css">
+    <link href="https://cdn.jsdelivr.net/npm/@ttskch/select2-bootstrap4-theme@1.5.2/dist/select2-bootstrap4.min.css" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="/css/main.css">
+     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.2/css/all.css">
+      <link rel="stylesheet" type="text/css"
+          href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/2.1.2/sweetalert.min.js"></script>
+     <link rel="stylesheet" type="text/css" href="/css/main.css">
+</head>
+<body class="app sidebar-mini rtl">
+    <div th:replace="~{/views/manager_items/header::header}"></div>
+    <div class="app-sidebar__overlay" data-toggle="sidebar"></div>
+    <div th:replace="~{/views/Station/side_bar::side_bar}"></div>
+    <main class="app-content">
+        <div class="row">
+            <div class="card container">
+                <div class="card-body">
+                    <form id="routeForm" th:object="${station}" action="/manager/station" method="post">
+                        <input type="hidden" th:field="*{id}" id="stationId"/>
+                        <div class="mb-3">
+                            <label class="form-label">Tên Trạm</label>
+                            <input th:field="*{name}" class="form-control" id="name" placeholder="Nhập tên trạm"/>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Số điện thoại</label>
+                            <input th:field="*{phonenumber}" class="form-control" id="phonenumber" placeholder="Nhập số điện thoại (10-11 chữ số)"/>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Địa điểm chi tiết</label>
+                            <input th:field="*{address}" class="form-control" id="address" placeholder="Nhập địa chỉ chi tiết"/>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Địa điểm</label>
+                            <select class="form-select" th:field="*{location}" id="location">
+                                <option value="" disabled selected>Chọn địa điểm</option>
+                                <option th:each="location : ${locations}" th:value="${location.id}" th:text="${location.name}"></option>
+                            </select>
+                        </div>
+                        <button type="submit" class="btn btn-primary" onclick="return validateForm()">Save</button>
+                        <button type="button" class="btn btn-danger" onclick="validateRemove()">Remove</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/js/select2.min.js"></script>
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            $('#location').select2({
+                theme: 'bootstrap4',
+                placeholder: "Chọn địa điểm",
+                allowClear: true
+            });
+        });
+
+        function validateForm() {
+            let name = document.getElementById("name").value.trim();
+            let phonenumber = document.getElementById("phonenumber").value.trim();
+            let address = document.getElementById("address").value.trim();
+            let location = document.getElementById("location").value.trim();
+            let estimatedDuration = document.getElementById("estimatedDuration").value.trim();
+
+            if (name === "") {
+                swal("Error", "Vui lòng nhập tên trạm!", "warning");
+                return false;
+            }
+
+            let phonePattern = /^\d{10,11}$/;
+            if (phonenumber === "" || !phonePattern.test(phonenumber)) {
+                swal("Error", "Vui lòng nhập số điện thoại hợp lệ (10-11 chữ số)!", "warning");
+                return false;
+            }
+
+            if (address === "") {
+                swal("Error", "Vui lòng nhập địa chỉ!", "warning");
+                return false;
+            }
+
+            if (location === "") {
+                swal("Error", "Vui lòng chọn địa điểm!", "warning");
+                return false;
+            }
+
+            if (estimatedDuration === "") {
+                swal("Error", "Vui lòng nhập thời gian dự kiến!", "warning");
+                return false;
+            }
+
+            return true;
+        }
+
+        function validateRemove() {
+            swal({
+                title: "Xác nhận xóa",
+                text: "Bạn có chắc chắn muốn xóa dữ liệu này?",
+                icon: "warning",
+                buttons: ["Hủy", "Xác nhận"],
+                dangerMode: true,
+            }).then((willDelete) => {
+                if (willDelete) {
+                    document.getElementById("routeForm").action = "/manager/station/delete";
+                    document.getElementById("routeForm").submit();
+                }
+            });
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,72 @@
+
+	<!DOCTYPE html>	
+	<html xmlns:th="https://www.thymeleaf.org"
+	xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity6">
+
+	<head>
+		<meta charset="UTF-8">
+	</head>
+
+	<body th:fragment="order">
+
+		<div class="card mb-5 mt-5">
+			<div class="card-title p-2 fw-bold">Gần Xong rồi ...</div>
+			<div class="card-body">
+				<form action="bookingconfirmation" th:object="${ticket}"  method="post" class="container">
+					<input type="hidden" name="tripID" th:value="${trip.id}">
+					<input type="hidden" name="userID" th:value="${username}">
+					<input type="hidden" name="count" th:value="${count}">
+					<input type="hidden" name="seatID" th:value="${seats}">
+					<div class="mb-3">
+						<label for="name" class="form-label fw-bold">Thông tin liên hệ</label> 
+						<input type="text"
+							th:name="customer" th:value="${account.fullname}" class="form-control" id="name" placeholder="Tên Người Đi" required="required">
+					</div>
+					<div class="input-group mb-3">
+						<span class="input-group-text" id="basic-addon1">vn +84</span> <input type="text"
+							class="form-control" th:value="${account.phone}" th:name="phonenumber" placeholder="Số điện thoại" required="required">
+					</div>
+					<div class="mb-3">
+						 <input type="hidden" class="form-control" name="email" th:value="${account.email}" id="email" placeholder="name@example.com">
+					</div>
+				<div class="card">
+					<div class="card-body">
+						<h5 class="card-title">Thông tin đón trả</h5>
+						<div class="row m-3">
+							<div class="col-md-5 p-3 card border-primary">
+								<h5>Điểm đón</h5>
+								<select class="form-control js-example-station-single "
+								 	th:field="*{departure}" 
+									th:name="departure" id="departure"
+									required>
+									<option th:each="items : ${tripStations}" th:value="${items.station.name}" th:text="${items.station.name}" ></option>
+								</select>
+								<p class="card-text mt-2">Quý khách vui lòng có mặt tại Bến
+									xe/Văn Phòng Trước để được kiểm tra thông tin trước khi lên xe.
+								</p>
+							</div>
+							<div class="col-md-1"></div>
+							<div class="col-md-5 p-3 card border-primary">
+								<h5>Điểm trả</h5>
+								<select class="form-control js-example-station-single"
+									 th:field="*{destination}" 
+									 th:name="destination" id="destination"
+									 required>
+									 <option th:each="items, iterStat  : ${tripStations}" th:if="${!iterStat.first}" th:value="${items.station.name}" th:text="${items.station.name}" ></option>
+								</select>
+							</div>
+						</div>
+
+					</div>
+				</div>
+				<div class="mb-3">
+						<button onclick="getvalue()" type="submit" class="btn btn-primary">Đặt vé</button>
+					</div>
+					
+				</form>
+			</div>
+		</div>
+
+	</body>
+
+	</html>

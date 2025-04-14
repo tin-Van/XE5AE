@@ -1,0 +1,279 @@
+<!DOCTYPE html>
+<html xmlns:th="https://www.thymeleaf.org">
+
+<head>
+<meta charset="UTF-8">
+<title>article</title>
+</head>
+
+<body>
+	<article th:fragment="article">
+		<br> <br> <br> <br> <br> <br> <br>
+<!-- 		<section id="featured-cars" class="featured-cars ">
+			<div class="container w-75 p-3" style="width: 1500px">
+				<div class="section-header">
+					<h2 class="custom-heading fs-4">Tuyến đường hot</h2>
+				</div>
+				<div class="row row-cols-1 row-cols-md-4 g-3 slick">
+					<div class="col" th:each="entry : ${MostBookedRoutes}">
+						<div class="card w-100 border-info">
+							<div class="featured-img-box">
+								<div class="featured-cars-img">
+									<img alt="" class="img-fluid img-thumbnail w-100 h-50"
+										th:src="'/img/'+${entry[0].bus.avatar}">
+								</div>
+							</div>
+							<div class="card-body">
+								<span class="fw-bolder" th:text="${entry[0].route.name}"></span>
+								<p>
+									Số lượng đặt: <span th:text="${entry[1]}"></span>
+								</p>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</section> -->
+
+		<!-- Featured Cars Section -->
+		<section id="featured-cars" class="featured-cars">
+			<div class="container w-75" style="width: 1500px">
+				<div class="section-header">
+					<h2 class="custom-heading fs-4">Ưu đãi nổi bật</h2>
+				</div>
+				<div class="featured-cars-content">
+					<div class="row">
+						<div class="col-lg-3 col-md-4 col-sm-6">
+							<div class="card w-100 border-info">
+								<div class="featured-img-box">
+									<div class="featured-cars-img">
+									<a class="link-offset-2 link-underline link-underline-opacity-0 link-secondary " href="/home/Uu-dai-tai-khoan">
+										<img src="/img/33.png" class="img-fluid img-thumbnail">
+									</a>
+									</div>
+								</div>
+								<div class="featured-cars-txt">
+									<h2 style="text-align: center;">
+										<a class="link-offset-2 link-underline link-underline-opacity-0 link-secondary " href="/home/Uu-dai-tai-khoan">TẠO TÀI KHOẢN NGAY NHẬN
+											ƯU ĐÃI KHỦNG CHO NGƯỜI DÙNG MỚI </a>
+									</h2>
+								</div>
+							</div>
+						</div>
+						<div class="col-lg-3 col-md-4 col-sm-6">
+							<div class="card w-100 border-info">
+								<div class="featured-img-box">
+									<div class="featured-cars-img">
+									<a class="link-offset-2 link-underline link-underline-opacity-0 link-secondary " href="/home/Uu-dai-dat-ve">
+										<img src="/img/19.png" class="img-fluid img-thumbnail">
+									</a>
+									</div>
+								</div>
+								<div class="featured-cars-txt">
+									<h2 style="text-align: center;">
+										<a class="link-offset-2 link-underline link-underline-opacity-0 link-secondary " href="/home/Uu-dai-dat-ve">ĐẶT VÉ SIÊU TIỆN CHỈ QUA APP
+											NGÂN HÀNG KHI MUA VÉ QUA TRANG WEB VÉ XE</a>
+									</h2>
+								</div>
+							</div>
+						</div>
+						<div class="col-lg-3 col-md-4 col-sm-6">
+							<div class="card w-100 border-info">
+								<div class="featured-img-box">
+									<div class="featured-cars-img">
+									<a class="link-offset-2 link-underline link-underline-opacity-0 link-secondary " href="/home/Uu-dai-tuyen-duong">
+										<img src="/img/nha-xe-hoang-nhan-1.jpg"
+											class="img-fluid img-thumbnail" alt="...">
+									</a>
+									</div>
+								</div>
+								<div class="featured-cars-txt">
+									<h2 style="text-align: center;">
+										<a class="link-offset-2 link-underline link-underline-opacity-0 link-secondary " href="/home/Uu-dai-tuyen-duong">Tuyến Sài Gòn – Vũng
+											Tàu đồng giá 100,000VNĐ mỗi chuyến xe</a>
+									</h2>
+								</div>
+							</div>
+						</div>
+						<div class="col-lg-3 col-md-4 col-sm-6">
+							<div class="card w-100 border-info">
+
+								<div class="featured-img-box">
+									<div class="featured-cars-img">
+										<a class="link-offset-2 link-underline link-underline-opacity-0 link-secondary " href="/home/Uu-dai-tuyen-duong-2"> <img
+											src="/img/thanh-buoi.webp" class="img-fluid img-thumbnail"
+											alt="...">
+										</a>
+									</div>
+								</div>
+								<div class="featured-cars-txt">
+								<h2 style="text-align: center;">
+									<a class="link-offset-2 link-underline link-underline-opacity-0 link-secondary " href="/home/Uu-dai-tuyen-duong-2">
+											Tuyến Sài Gòn – Bình
+											Thuận đồng giá 150,000VNĐ mỗi chuyến xe
+									</a>
+								</h2>
+								</div>
+								
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</section>
+
+		<!-- Travel Tips Section -->
+		<section id="featured-cars" class="featured-cars">
+			<div class="container w-75" style="width: 1500px">
+				<div class="section-header">
+					<h2 class="custom-heading fs-4">TIP du lịch</h2>
+				</div>
+				<div class="featured-cars-content">
+					<div class="row">
+						<div class="col-lg-3 col-md-4 col-sm-6">
+							<div class="card w-100 border-info">
+								<div class="featured-img-box">
+									<div class="featured-cars-img">
+									<a class="link-offset-2 link-underline link-underline-opacity-0 link-secondary " href="/home/Tip-Ha-Noi">
+										<img src="/img/hanoi1.jpg" class="card-img-top" alt="...">
+									</a>
+									</div>
+								</div>
+								<div class="featured-cars-txt">
+									<h2 style="text-align: center;">
+										<a class="link-offset-2 link-underline link-underline-opacity-0 link-secondary " href="/home/Tip-Ha-Noi">TIP DU LỊCH HÀ NỘI</a>
+									</h2>
+								</div>
+							</div>
+						</div>
+						<div class="col-lg-3 col-md-4 col-sm-6">
+							<div class="card w-100 border-info">
+								<div class="featured-img-box">
+									<div class="featured-cars-img">
+									<a class="link-offset-2 link-underline link-underline-opacity-0 link-secondary " href="/home/Tip-Sai-Gon">
+										<img src="/img/cho2.jpg" class="card-img-top" alt="...">
+									</a>
+									</div>
+								</div>
+								<div class="featured-cars-txt">
+									<h2 style="text-align: center;">
+										<a class="link-offset-2 link-underline link-underline-opacity-0 link-secondary " href="/home/Tip-Sai-Gon">TIP DU LỊCH SÀI GÒN</a>
+									</h2>
+								</div>
+							</div>
+						</div>
+						<div class="col-lg-3 col-md-4 col-sm-6">
+							<div class="card w-100 border-info">
+								<div class="featured-img-box">
+									<div class="featured-cars-img">
+									<a class="link-offset-2 link-underline link-underline-opacity-0 link-secondary " href="/home/Tip-Vung-Tau">
+										<img src="/img/vungtau3.jpg" class="card-img-top" alt="...">
+										</a>
+									</div>
+								</div>
+								<div class="featured-cars-txt">
+									<h2 style="text-align: center;">
+										<a class="link-offset-2 link-underline link-underline-opacity-0 link-secondary " href="/home/Tip-Vung-Tau">TIP DU LỊCH VŨNG TÀU</a>
+									</h2>
+								</div>
+							</div>
+						</div>
+						<div class="col-lg-3 col-md-4 col-sm-6">
+							<div class="card w-100 border-info">
+								<div class="featured-img-box">
+									<div class="featured-cars-img">
+									<a class="link-offset-2 link-underline link-underline-opacity-0 link-secondary " href="/home/Tip-Da-Lat">
+									<img src="/img/dalat2.jpg" class="card-img-top" alt="..."></a>
+										
+									
+									</div>
+									
+								</div>
+								<div class="featured-cars-txt">
+									<h2 style="text-align: center;">
+										<a class="link-offset-2 link-underline link-underline-opacity-0 link-secondary " href="/home/Tip-Da-Lat">TIP DU LỊCH ĐÀ LẠT</a>
+									</h2>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</section>
+
+		<!-- Platform Benefits Section -->
+		<section id="featured-cars" class="featured-cars">
+			<div class="container w-75" style="width: 1500px">
+				<div class="section-header">
+					<h2 class="custom-heading fs-4">Nền tảng kết nối người dùng và nhà
+						xe</h2>
+				</div>
+				<div class="featured-cars-content">
+					<div class="row">
+						<div class="col-lg-3 col-md-4 col-sm-6">
+							<div class="card w-100 border-info">
+								<div class="featured-img-box">
+									<div class="featured-cars-img">
+										<img src="/img/bus-car-icon.svg" class="card-img-top"
+											alt="...">
+									</div>
+								</div>
+								<div class="featured-cars-txt">
+									<h2 style="text-align: center;">
+										<a class="link-offset-2 link-underline link-underline-opacity-0 link-secondary " href="#">Chất lượng</a>
+									</h2>
+								</div>
+							</div>
+						</div>
+						<div class="col-lg-3 col-md-4 col-sm-6">
+							<div class="card w-100 border-info">
+								<div class="featured-img-box">
+									<div class="featured-cars-img">
+										<img src="/img/yellow-ticket-icon.svg" class="card-img-top"
+											alt="...">
+									</div>
+								</div>
+								<div class="featured-cars-txt">
+									<h2 style="text-align: center;">
+										<a class="link-offset-2 link-underline link-underline-opacity-0 link-secondary " href="#">Dễ dàng</a>
+									</h2>
+								</div>
+							</div>
+						</div>
+						<div class="col-lg-3 col-md-4 col-sm-6">
+							<div class="card w-100 border-info">
+								<div class="featured-img-box">
+									<div class="featured-cars-img">
+										<img src="/img/a.svg" class="card-img-top" alt="...">
+									</div>
+								</div>
+								<div class="featured-cars-txt">
+									<h2 style="text-align: center;">
+										<a class="link-offset-2 link-underline link-underline-opacity-0 link-secondary " href="#">Tiện lợi</a>
+									</h2>
+								</div>
+							</div>
+						</div>
+						<div class="col-lg-3 col-md-4 col-sm-6">
+							<div class="card w-100 border-info">
+								<div class="featured-img-box">
+									<div class="featured-cars-img">
+										<img src="/img/completement-icon.svg" class="card-img-top"
+											alt="...">
+									</div>
+								</div>
+								<div class="featured-cars-txt">
+									<h2 style="text-align: center;">
+										<a class="link-offset-2 link-underline link-underline-opacity-0 link-secondary " href="#">Đúng giờ</a>
+									</h2>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</section>
+	</article>
+</body>
+
+</html>

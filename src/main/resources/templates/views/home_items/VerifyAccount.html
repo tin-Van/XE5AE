@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html xmlns:th="https://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Verify Account</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <style>
+        body {
+            background-color: #f8f9fa;
+            font-family: 'Arial', sans-serif;
+        }
+
+        .container {
+            margin-top: 100px;
+        }
+
+        .card {
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        h4.text-primary {
+            font-weight: bold;
+            margin-bottom: 20px;
+        }
+
+        .form-control {
+            border-radius: 5px;
+        }
+
+        .btn-primary {
+            background-color: #007bff;
+            border-color: #007bff;
+            padding: 10px 20px;
+            border-radius: 50px;
+        }
+
+        .btn-primary:hover {
+            background-color: #0056b3;
+            border-color: #004085;
+        }
+
+        .footer-text {
+            font-size: 0.8rem;
+            color: #6c757d;
+            text-align: center;
+            margin-top: 40px;
+        }
+
+        .card-header {
+            font-weight: 600;
+            color: #ffffff;
+            background-color: #007bff;
+            border-radius: 10px 10px 0 0;
+            padding: 15px;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-md-6">
+                <div class="card shadow-lg">
+                    <div class="card-header text-center">
+                        <h4 class="text-white">Online Booking Mall</h4>
+                        <h5>Đặt vé nhanh, dễ dàng</h5>
+                    </div>
+                    <div class="card-body">
+                        <form action="/verify-account" method="post">
+                            <input type="hidden" name="token" th:value="${token}" />
+                            <div class="mb-3">
+                                <label for="verificationCode" class="form-label">Mã xác nhận:</label>
+                                <input type="text" id="verificationCode" name="verificationCode" class="form-control"
+                                 oninput="myFunction()"   required>
+                                <span class="badge text-bg-danger" th:text="${error}"></span>
+                            </div>
+                            
+                            <button type="submit" class="btn btn-primary d-grid gap-2 col-10 mx-auto">Xác Nhận Tài Khoản</button>
+                        </form>
+						<div class="mb-3 mt-3 text-center">
+							<form action="/resend-verification-code" method="post" onsubmit="disableButtonForTwoMinutes(event)">
+								<input type="hidden" th:name="token" id="demo" th:value="${token}" />
+								<button type="submit" id="resendButton" class="btn btn-secondary">Lấy mã
+									xác thực mới</button>
+							</form>
+						</div>
+
+					</div>
+                </div>
+                 <p class="footer-text mt-3">Mã xác nhận có hiệu lực 1 phút</p>
+                <p class="footer-text mt-3">© 2024 5 TV. Mọi quyền được bảo lưu.</p>
+            </div>
+        </div>
+    </div>
+<script>
+    function disableButtonForTwoMinutes(event) {
+        const button = document.getElementById("resendButton");
+        
+        // Lưu thời gian hết hạn vào localStorage
+        const expirationTime = new Date().getTime() + 1 * 60 * 1000; // Thời gian hết hạn là 2 phút
+        localStorage.setItem("resendButtonExpiration", expirationTime);
+
+        startCountdown(button, expirationTime);
+
+        // Để gửi form sau khi disable nút
+        event.target.submit();
+    }
+
+    function startCountdown(button, expirationTime) {
+        button.disabled = true; // Disable nút
+
+        const interval = setInterval(() => {
+            const currentTime = new Date().getTime();
+            const remainingTime = Math.floor((expirationTime - currentTime) / 1000);
+
+            if (remainingTime > 0) {
+                button.innerText = `Vui lòng chờ ${remainingTime} giây để lấy mã mới`;
+            } else {
+                clearInterval(interval);
+                button.disabled = false; // Bật lại nút
+                button.innerText = "Lấy mã xác thực mới"; // Phục hồi text ban đầu
+                localStorage.removeItem("resendButtonExpiration"); // Xóa trạng thái
+            }
+        }, 1000);
+    }
+
+    // Kiểm tra trạng thái khi tải trang
+    window.onload = function () {
+        const expirationTime = localStorage.getItem("resendButtonExpiration");
+        const button = document.getElementById("resendButton");
+
+        if (expirationTime) {
+            const currentTime = new Date().getTime();
+            if (currentTime < expirationTime) {
+                startCountdown(button, expirationTime);
+            }
+        }
+    };
+</script>
+
+    
+	<script>
+		function myFunction() {
+			let text = document.getElementById("verificationCode").value;
+			document.getElementById("demo").value=text;
+		}
+	</script>
+	<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.10.1/dist/umd/popper.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.min.js" integrity="sha384-JwOamz8uoGG7zGGd18BZgrmimEo79Ed7EZnMLP5MB3aJlHztj6XQQvJX50/gC5z7"
+        crossorigin="anonymous"></script>
+
+</body>
+
+</html>

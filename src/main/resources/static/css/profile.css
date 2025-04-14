@@ -1,0 +1,73 @@
+body {
+    font-family: Arial, sans-serif;
+}
+.container {
+    width: 600px;
+    margin: 50px auto;
+    border: 1px solid #ccc;
+    padding: 20px;
+    border-radius: 10px;
+    background-color: #f9f9f9;
+}
+h2 {
+    text-align: center;
+}
+.form-group {
+    margin-bottom: 15px;
+}
+.form-group label {
+    display: block;
+    font-weight: bold;
+}
+.form-group input[type="text"],
+.form-group input[type="email"],
+.form-group input[type="file"],
+.form-group select {
+    width: 100%;
+    padding: 8px;
+    margin-top: 5px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+}
+.form-group input[type="radio"] {
+    margin-right: 10px;
+}
+.form-group .radio-group {
+    display: flex;
+    justify-content: space-around;
+}
+.form-group input[type="file"] {
+    padding: 5px;
+}
+.form-group .submit-btn {
+    background-color: #ff4500;
+    color: white;
+    padding: 10px 15px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    width: 100%;
+}
+.form-group .submit-btn:hover {
+    background-color: #ff5722;
+}
+.profile-section {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+}
+.profile-details {
+    flex-grow: 1;
+    margin-right: 20px;
+}
+.profile-image-section {
+    text-align: center;
+}
+.profile-image {
+    border-radius: 50%;
+    max-width: 150px;
+}
+.file-instructions {
+    font-size: 12px;
+    text-align: center;
+}

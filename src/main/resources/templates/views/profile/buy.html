@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html xmlns:th="https://www.thymeleaf.org"
+	xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity6">
+<head>
+<meta charset="UTF-8">
+<title>Lịch sử mua</title>
+<head>
+<title>Danh sách vé xe | Quản trị Admin</title>
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<!-- Main CSS-->
+<link rel="stylesheet" type="text/css" href="/css/main.css">
+<link rel="stylesheet"
+	href="https://cdn.jsdelivr.net/npm/boxicons@latest/css/boxicons.min.css">
+<!-- or -->
+<link rel="stylesheet"
+	href="https://unpkg.com/boxicons@latests/css/boxicons.min.css">
+
+<!-- Font-icon css-->
+<link rel="stylesheet" type="text/css"
+	href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+<script
+	src="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/2.1.2/sweetalert.min.js"></script>
+<link rel="stylesheet"
+	href="https://use.fontawesome.com/releases/v5.8.2/css/all.css">
+<link rel="stylesheet"
+	href="https://cdnjs.cloudflare.com/ajax/libs/jquery-confirm/3.3.2/jquery-confirm.min.css">
+<script
+	src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.17.2/xlsx.full.min.js"></script>
+<!-- Thư viện xlsx -->
+</head>
+
+<body onload="time()" class="app sidebar-mini rtl">
+	<!-- Navbar-->
+	<div th:replace="~{/views/manager_items/header::header}"></div>
+
+	<!-- Sidebar menu-->
+	<div class="app-sidebar__overlay" data-toggle="sidebar"></div>
+	<aside class="app-sidebar">
+		<div class="app-sidebar__user">
+			<div>
+				<p class="app-sidebar__user-name">
+					<b>[[${accounts.username}]]</b>
+				</p>
+				<p class="app-sidebar__user-designation">Chào mừng bạn trở lại</p>
+			</div>
+		</div>
+		<hr>
+
+		<ul class="app-menu">
+
+			<li><a class="app-menu__item"
+				th:href="@{'/profile?username='+${#authentication.name}}"><i
+					class='app-menu__icon bx bx-id-card'></i> <span
+					class="app-menu__label">PROFILE</span></a></li>
+			<li><a class="app-menu__item active"
+				th:href="@{'/profile/history?email='  +${accounts.email}}">Lịch
+					sử mua vé</a></li>
+		</ul>
+	</aside>
+	<main class="app-content">
+		<div class="app-title">
+			<ul class="app-breadcrumb breadcrumb side">
+				<li class="breadcrumb-item active"><a href="#"><b>Lịch
+							sử mua</b></a></li>
+			</ul>
+
+			<div id="clock"></div>
+		</div>
+		<div class="row">
+			<div class="container mt-4 p-3">
+				<div class="row">
+					<!-- Seller Info -->
+					<div class="col-md-12 d-flex justify-content-between"></div>
+					<!-- Product Information -->
+					<div th:if="${tickets != null}">
+						<div th:each="items : ${tickets}" class="col-md-12 mt-3">
+							<div class="card p-3">
+								<div class="row">
+									<div class="col-md-2 p-3">
+										<img th:src="'/img/'+${items.trip.bus.avatar}"
+											class="img-fluid" alt="Product Image">
+									</div>
+									<div class="col-md-6 p-3">
+										<h5>[[${items.trip.route.name}]]</h5>
+										<span th:if="${items.paymentstatus}=='True'"
+											class="badge bg-info">Thanh toán online</span> <span
+											th:if="${items.paymentstatus}=='False'"
+											class="badge bg-danger">Đã hủy</span> <span
+											th:if="${items.paymentstatus}=='Pending'"
+											class="badge bg-warning">Thanh toán tiền mặt</span>
+											<p>Thời gian đặt vé: <span th:text="${items.getFormattedBookingDate()}"></span> </p>
+										<p class="text-muted">Phân loại vé: [[${items.seat.seatNumber}]]</p>
+									</div>
+									<div class="col-md-4 mt-5 text-end">
+										<p>Mã vé: [[${items.ticketCode}]]</p>
+										<p>Khởi hành:
+											[[${#temporals.format(items.trip.departureDate,
+											'dd-MMM-yyyy')}]]</p>
+										<p>Xe: [[${items.trip.bus.name}]]</p>
+									</div>
+								</div>
+								<div class="row mt-3">
+									<div class="col-md-6"></div>
+									<div class="col-md-6 text-end">
+										<h5>Thành tiền: [[${#numbers.formatDecimal(items.trip.price,
+											0, 'COMMA', 0, 'POINT')}]] VND</h5>
+										<a href="/home"><button class="btn btn-danger">Mua
+												Lại</button></a>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+					<div th:if="${tickets == null || tickets.isEmpty()}"
+						class="col-md-12 text-center mt-5">
+						<p class="text-muted">Không có lịch sử mua vé nào để hiển thị.</p>
+					</div>
+
+				</div>
+			</div>
+		</div>
+
+	</main>
+	<!-- Essential javascripts for application to work-->
+	<script src="/js/jquery-3.2.1.min.js"></script>
+	<script src="/js/popper.min.js"></script>
+	<script src="/js/bootstrap.min.js"></script>
+	<script
+		src="//ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+	<script src="/src/jquery.table2excel.js"></script>
+	<script src="/js/main.js"></script>
+	<!-- The javascript plugin to display page loading on top-->
+	<script src="/js/plugins/pace.min.js"></script>
+	<!-- Page specific javascripts-->
+	<script
+		src="https://cdnjs.cloudflare.com/ajax/libs/jquery-confirm/3.3.2/jquery-confirm.min.js"></script>
+	<!-- Data table plugin-->
+	<script type="text/javascript"
+		src="/js/plugins/jquery.dataTables.min.js"></script>
+	<script type="text/javascript"
+		src="/js/plugins/dataTables.bootstrap.min.js"></script>
+	<script type="text/javascript">
+		$('#sampleTable').DataTable();
+	</script>
+	<script type="text/javascript" src="/js/time.js"></script>
+</body>
+
+</html>

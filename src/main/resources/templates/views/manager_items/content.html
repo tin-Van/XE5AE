@@ -1,0 +1,139 @@
+
+<!DOCTYPE html>
+<html xmlns:th="https://www.thymeleaf.org"
+	xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity6">
+
+<head>
+<script src="https://cdn.jsdelivr.net/npm/chart.js@latest"></script>
+<style>
+canvas {
+	width: 100% !important;
+	height: 400px !important;
+}
+</style>
+</head>
+<body th:fragment="content">
+	<main class="app-content">
+		<div class="row">
+			<div class="col-md-12">
+				<div class="app-title">
+					<ul class="app-breadcrumb breadcrumb">
+						<li class="breadcrumb-item"><a href="#"><b>Bảng điều
+									khiển</b></a></li>
+					</ul>
+					<div id="clock"></div>
+				</div>
+			</div>
+		</div>
+		<div class="row">
+			<!--Left-->
+			<div class="col-md-12 ">
+				<div class="row">
+					<!-- col-6 -->
+					<div class="col-md-6">
+						<div class="widget-small primary coloured-icon">
+							<i class='icon bx bxs-user-account fa-3x'></i>
+							<div class="info">
+								<h4>Tổng tài khoản</h4>
+								<p>
+									<b>[[${totalaccount}]] tài khoản</b>
+								</p>
+								<p class="info-tong">Tổng số tài khoản đã được tạo.</p>
+							</div>
+						</div>
+					</div>
+					<!-- col-6 -->
+					<div class="col-md-6">
+						<div class="widget-small info coloured-icon">
+							<i class='icon bx bxs-data fa-3x'></i>
+							<div class="info">
+								<h4>Tổng chuyến xe</h4>
+								<p>
+									<b>[[${totalroute}]] chuyến</b>
+								</p>
+								<p class="info-tong">Tổng số chuyến được quản lý.</p>
+							</div>
+						</div>
+					</div>
+					<!-- col-6 -->
+					<div class="col-md-6">
+						<div class="widget-small warning coloured-icon">
+							<i class='icon bx bxs-shopping-bags fa-3x'></i>
+							<div class="info">
+								<h4>Tổng đơn vé</h4>
+								<p>
+									<b>[[${totalticket}]] đơn vé</b>
+								</p>
+								<p class="info-tong">Tổng số vé.</p>
+							</div>
+						</div>
+					</div>
+					<div class="col-md-12">
+						<div class="tile">
+							<h3 class="tile-title">Tình trạng đơn vé</h3>
+							<div>
+								<table class="table table-bordered">
+									<thead>
+										<tr>
+											<th>Tên khách hàng</th>
+											<th>Tuyến đi</th>
+											<th>Thời gian đặt</th>
+											<th>Tổng tiền</th>
+											<th>Trạng thái</th>
+										</tr>
+									</thead>
+									<tbody th:each="items : ${top4tknew}">
+										<tr>
+											<td th:text="${items.customer}"></td>
+											<td th:text="${items.trip.route.name}"></td>
+										 	<td th:text="${items.getFormattedBookingDate()}"></td>
+											<td>[[${#numbers.formatDecimal(items.trip.price, 0, 'COMMA', 0, 'POINT')}]] VND</td>
+											<td><span th:switch="${items.paymentstatus}"> <span
+													th:case="'True'" class="badge bg-info">Đã thanh toán</span>
+													<span th:case="'False'" class="badge bg-danger">Hủy
+														thanh toán</span> <span th:case="'Pending'"
+													class="badge bg-warning">Thanh toán tiền mặt</span>
+											</span></td>
+										</tr>
+									</tbody>
+
+								</table>
+							</div>
+						</div>
+					</div>
+					<div class="col-md-12">
+						<div class="tile">
+							<h3 class="tile-title">Tài khoản mới</h3>
+							<div>
+								<table class="table table-hover">
+									<thead>
+										<tr>
+											<th>Tên tài khoản</th>
+											<th>Số điện thoại</th>
+											<th>Thời gian</th>
+										</tr>
+									</thead>
+									<tbody th:each="item : ${accnew}">
+										<tr>
+											<td th:text="${item.fullname}"></td>
+											<td th:text="${item.phone}"></td>
+											<td
+												th:text="${#dates.format(item.createdDate, 'HH:mm:ss dd-MM-yyyy')}"></td>
+										</tr>
+									</tbody>
+								</table>
+
+							</div>
+
+						</div>
+					</div>
+					<!-- / col-12 -->
+				</div>
+			</div>
+		</div>
+	</main>
+</body>
+<script type="text/javascript">
+
+</script>
+</html>

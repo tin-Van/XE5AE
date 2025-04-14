@@ -1,0 +1,44 @@
+@charset "UTF-8";
+body{
+	padding: 0px;
+	margin: 0px;
+	overflow-x:  hidden;
+}
+
+.select2-container--default .select2-selection--single .select2-selection__clear {
+  position: absolute;
+  top: 5px;
+  right: 5px;
+  width: 25px;
+} 
+ .select2-results__options {
+  display: flex;
+  flex-direction: column;
+}
+.select2-selection__choice__remove {
+  height: 26px;
+  position: absolute;
+  top: 5px;
+  right: 1px;
+  width: 25px;
+}
+.select2-container--default .select2-selection--single .select2-selection__rendered
+	{
+	padding: 10px 20px !important;
+	font-size: 18px !important;
+	text-align: justify;
+}
+.select2-container--default .select2-selection--single {
+	height: 40px !important;
+}
+.location-table td {
+  text-align: justify; /* Căn giữa chữ trong ô */
+ 
+}
+.location-table button {
+  font-size: 30px; /* Tăng kích thước font chữ */
+  padding: 10px 20px; /* Tăng padding */
+  height: 50px; /* Tăng chiều cao */
+  
+  
+}

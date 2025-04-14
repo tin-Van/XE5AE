@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<title>Danh sách trạm xe buýt</title>
+</head>
+<body th:fragment="list">
+	<div class="row">
+		<div class="col-md-12">
+			<div class="card mb-2">
+				<div class="card-body">
+					<div class="col-sm-2">
+						<a class="btn btn-add btn-sm" href="/manager/station/edit"
+							title="Thêm"><i class="fas fa-plus"></i> Tạo mới trạm</a>
+							[[${message}]]
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="row" >
+		<div class="col-md-12">
+			<div class="tile p-4">
+				<div class="tile-body">
+					<table class="table table-hover table-bordered p-4"
+						id="sampleTable">
+						<thead>
+							<tr>
+								<th>Tên Trạm</th>
+								<th>Số điện thoại</th>
+								<th>Địa chỉ</th>
+								<th></th>
+								<th>Tùy chọn</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr th:each="items : ${StationsList}">
+								<td th:text="*{items.name}"></td>
+								<td th:text="*{items.phonenumber}"></td>
+								<td th:text="*{items.address}"></td>
+								<td th:text="*{items.location.name}"></td>
+								<td><a class="btn btn-primary"
+									th:href="@{'/manager/station/edit/' + ${items.id}}"> Chỉnh sửa  </a></td>
+							</tr>
+						</tbody>
+					</table>
+				</div>
+			</div>
+		</div>
+	</div>
+</body>
+</html>

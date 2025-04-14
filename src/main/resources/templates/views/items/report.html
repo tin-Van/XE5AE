@@ -1,0 +1,502 @@
+
+<!DOCTYPE html>
+<html xmlns:th="https://www.thymeleaf.org"
+	xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity6">
+
+<head>
+<meta charset="UTF-8">
+<link
+	href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
+	rel="stylesheet">
+<script
+	src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+<!-- Main CSS-->
+<link rel="stylesheet" type="text/css" href="/css/main.css">
+<link rel="stylesheet"
+	href="https://cdn.jsdelivr.net/npm/boxicons@latest/css/boxicons.min.css">
+<!-- or -->
+<link rel="stylesheet"
+	href="https://unpkg.com/boxicons@latest/css/boxicons.min.css">
+<!-- Font-icon css-->
+<link rel="stylesheet" type="text/css"
+	href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+<script
+	src="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/2.1.2/sweetalert.min.js"></script>
+<link rel="stylesheet"
+	href="https://use.fontawesome.com/releases/v5.8.2/css/all.css">
+<link rel="stylesheet"
+	href="https://cdnjs.cloudflare.com/ajax/libs/jquery-confirm/3.3.2/jquery-confirm.min.css">
+<script
+	src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.17.2/xlsx.full.min.js"></script>
+<title>Reports</title>
+</head>
+<body onload="time()" class="app sidebar-mini rtl">
+	<!-- Navbar-->
+	<div th:replace="~{/views/manager_items/header::header}"></div>
+	<!-- Sidebar menu-->
+	<div class="app-sidebar__overlay" data-toggle="sidebar"></div>
+	<aside class="app-sidebar">
+		<div class="app-sidebar__user">
+			<div>
+				<p class="app-sidebar__user-name">
+					<p class="app-sidebar__user-name"><b> [[${username}]] </b>
+				</p>
+				<p class="app-sidebar__user-designation">Chào mừng bạn trở lại</p>
+			</div>
+		</div>
+		<hr>
+<ul class="app-menu">
+			<!-- Thanh điều khiển  -->
+			<li>
+				<a class="app-menu__item" href="/manager">
+					<i class='app-menu__icon bx bx-tachometer'></i>
+					<span class="app-menu__label ">Bảng điều khiển </span>
+				</a>
+			</li>
+			<!-- Thanh quản lý trạm  -->
+			<li>
+				<a class="app-menu__item  " href="/manager/station">
+					<i class='app-menu__icon bx bx-id-card'></i> 
+					<span class="app-menu__label">Quản lý trạm</span></a>
+			</li>
+			<!-- Thanh quản xe  -->
+			<li>
+				<a class="app-menu__item  " href="/manager/bus">
+					<i class='app-menu__icon bx bx-id-card'></i> 
+					<span class="app-menu__label">Quản lý nhà xe</span></a>
+			</li>
+			<!-- Thanh quản tuyến đường  -->
+			<li>
+				<a class="app-menu__item" href="/manager/route">
+					<i class='app-menu__icon bx bx-purchase-tag-alt'></i> 
+					<span class="app-menu__label">Quản lý tuyến đường</span>
+				</a>
+			</li>
+			<!-- Thanh quản đơn vé  -->
+			<li>
+				<a class="app-menu__item " href="/manager/ticket">
+					<i class='app-menu__icon bx bx-task'></i>
+					<span class="app-menu__label">Quản lý đơn Vé</span>
+				</a>
+			</li>
+			<!-- Thanh quản doanh thu  -->
+			<li>
+				<a class="app-menu__item active" href="/manager/report">
+					<i class='app-menu__icon bx bx-pie-chart-alt-2'></i>
+					<span class="app-menu__label">Báo cáo doanh thu</span>
+				</a>
+			</li>
+			<!-- Thanh quản account -->
+			<li>
+				<a sec:authorize="hasRole('admin')" class="app-menu__item" href="/manager/account">
+					<i class='app-menu__icon bx bx-id-card'></i>
+					<span class="app-menu__label">Quản lý account</span>
+				</a>
+			</li>
+		</ul>
+	</aside>
+	<main class="app-content">
+		<div class="row">
+			<div class="col-md-12">
+				<div class="app-title">
+					<ul class="app-breadcrumb breadcrumb">
+						<li class="breadcrumb-item"><b>Thống kê</b></li>
+					</ul>
+					<div id="clock"></div>
+				</div>
+			</div>
+		</div>
+		<div class="row">
+			<div class="container mt-5">
+				<div></div>
+				<div class="row">
+					<div class="col-md-12">
+						<div class="tile">
+							<div class="tile-body">
+								<div class="row">
+									<div class="col-sm-2">
+										<a class="btn btn-delete btn-sm print-file" type="button"
+											title="In" onclick="myApp.printTable()"><i
+											class="fas fa-print"></i> In dữ liệu</a>
+									</div>
+									<div class="col-sm-2">
+										<a class="btn btn-excel btn-sm" href="#" id="exportButton"
+											title="Xuất Excel"><i class="fas fa-file-excel"></i> Xuất
+											Excel</a>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="row">
+					<div class="col-md-6 col-lg-3">
+						<div class="widget-small primary coloured-icon">
+							<i class='icon bx bxs-user fa-3x'></i>
+							<div class="info">
+								<h4>Tổng Nhà xe</h4>
+								<p>
+									<b>[[${totalbus}]]</b>
+								</p>
+							</div>
+						</div>
+					</div>
+					<div class="col-md-6 col-lg-3">
+						<div class="widget-small info coloured-icon">
+							<i class='icon bx bxs-purchase-tag-alt fa-3x'></i>
+							<div class="info">
+								<h4>Tổng tuyến</h4>
+								<p>
+									<b>[[${totalroute}]]</b>
+								</p>
+							</div>
+						</div>
+					</div>
+					<div class="col-md-6 col-lg-3">
+						<div class="widget-small warning coloured-icon">
+							<i class='icon fa-3x bx bxs-shopping-bag-alt'></i>
+							<div class="info">
+								<h4>Tổng đơn vé</h4>
+								<p>
+									<b>[[${totalticket}]]</b>
+								</p>
+							</div>
+						</div>
+					</div>
+					<div class="col-md-6 col-lg-3">
+						<div class="widget-small primary coloured-icon">
+							<i class='icon fa-3x bx bxs-chart'></i>
+							<div class="info">
+								<h4>Tổng thu nhập</h4>
+								<p>
+									<b>[[${#numbers.formatDecimal(totalsum, 0, 'COMMA', 0,
+										'POINT')}]] VNĐ</b>
+								</p>
+							</div>
+						</div>
+					</div>
+				</div>
+
+				<div class="tile container">
+					<h3 class="tile-title">Tuyến đường được đặt nhiều nhất</h3>
+					<div>
+						<table class="table table-hover table-bordered" id="sampleTable">
+							<thead>
+								<tr>
+									<th>Tuyến đường</th>
+									<th>Doanh thu</th>
+									<th>Số vé đã đặt</th>
+								</tr>
+							</thead>
+							<tbody>
+								<tr th:each="items:${reports}">
+									<td>[[${items.route_name}]]</td>
+									<td>[[${#numbers.formatDecimal(items.sum, 0, 'COMMA', 0,
+										'POINT')}]] VNĐ</td>
+									<td>[[${items.count}]]</td>
+								</tr>
+							</tbody>
+						</table>
+					</div>
+					<!-- / div trống-->
+				</div>
+
+			</div>
+
+		</div>
+		<div class="row me-0">
+			<div class="col-md-12">
+				<form id="myForm" action="/manager/report" method="post">
+					<div class="tile">
+						<div class="row">
+							<div class="col-md-8">
+								<h3 class="tile-title">DỮ LIỆU HÀNG THÁNG</h3>
+							</div>
+							<div class="col-md-4 ">
+								<input id="yearValue" th:name="year" onblur="myFunction()"
+									class="form-control m-0 h-50 bg-white " type="number" min="1900" max="2099"
+									step="1" th:value="${year}" />
+							</div>
+						</div>
+
+						<div id="monthRevenue"
+							style="width: 1000px; height: 600px; margin: 0 auto"></div>
+					</div>
+				</form>
+			</div>
+			<div class="col-md-6">
+				<div class="tile">
+					<h3 class="tile-title">THỐNG KÊ DOANH SỐ</h3>
+					<div id="container"
+						style="width: 550px; height: 400px; margin: 0 auto">
+					</div>
+				</div>
+			</div>
+			<div class="col-md-6">
+				<div class="tile">
+					<h3 class="tile-title">THỐNG KÊ DOANH SỐ</h3>
+					<div id="ticketcount"
+						style="width: 550px; height: 400px; margin: 0 auto">
+					</div>
+				</div>
+			</div>
+		</div>
+		
+	</main>
+	<!-- Essential javascripts for application to work-->
+	<script src="/js/jquery-3.2.1.min.js"></script>
+	<script src="/js/popper.min.js"></script>
+	<script src="/js/bootstrap.min.js"></script>
+	<script src="/js/main.js"></script>
+	<!-- The javascript plugin to display page loading on top-->
+	<script src="/js/plugins/pace.min.js"></script>
+	<!-- Page specific javascripts-->
+	<script type="text/javascript" src="/js/plugins/chart.js"></script>
+	<script type="text/javascript">
+		var data = {
+			labels : [ "Tháng 1", "Tháng 2", "Tháng 3", "Tháng 4", "Tháng 5",
+					"Tháng 6", "Tháng 7", "Tháng 8", "Tháng 9", "Tháng 10",
+					"Tháng 11", "Tháng 12" ],
+			datasets : [ {
+				label : "Dữ liệu đầu tiên",
+				fillColor : "rgba(255, 255, 255, 0.158)",
+				strokeColor : "black",
+				pointColor : "rgb(220, 64, 59)",
+				pointStrokeColor : "#fff",
+				pointHighlightFill : "#fff",
+				pointHighlightStroke : "green",
+				data : [ 20, 59, 90, 51, 56, 100, 40, 60, 78, 53, 33, 81 ]
+			}, {
+				label : "Dữ liệu kế tiếp",
+				fillColor : "rgba(255, 255, 255, 0.158)",
+				strokeColor : "rgb(220, 64, 59)",
+				pointColor : "black",
+				pointStrokeColor : "#fff",
+				pointHighlightFill : "#fff",
+				pointHighlightStroke : "green",
+				data : [ 48, 48, 49, 39, 86, 10, 50, 70, 60, 70, 75, 90 ]
+			} ]
+		};
+		var ctxl = $("#lineChartDemo").get(0).getContext("2d");
+		var lineChart = new Chart(ctxl).Line(data);
+		var ctxb = $("#barChartDemo").get(0).getContext("2d");
+		var barChart = new Chart(ctxb).Bar(data);
+	</script>
+	<!-- Google analytics script-->
+
+	<script type="text/javascript">
+		if (document.location.hostname == 'pratikborsadiya.in') {
+			(function(i, s, o, g, r, a, m) {
+				i['GoogleAnalyticsObject'] = r;
+				i[r] = i[r] || function() {
+					(i[r].q = i[r].q || []).push(arguments)
+				}, i[r].l = 1 * new Date();
+				a = s.createElement(o), m = s.getElementsByTagName(o)[0];
+				a.async = 1;
+				a.src = g;
+				m.parentNode.insertBefore(a, m)
+			})(window, document, 'script',
+					'//www.google-analytics.com/analytics.js', 'ga');
+			ga('create', 'UA-72504830-1', 'auto');
+			ga('send', 'pageview');
+		}
+		// In dữ liệu
+		var myApp = new function() {
+			this.printTable = function() {
+				var tab = document.getElementById('sampleTable');
+				var win = window.open('', '', 'height=700,width=700');
+				win.document.write(tab.outerHTML);
+				win.document.close();
+				win.print();
+			}
+		}
+		// Export to Excel
+		document.getElementById('exportButton').addEventListener('click',
+				function() {
+					// Lấy bảng gốc
+					var originalTable = document.getElementById('sampleTable');
+
+					// Tạo workbook mới
+					var wb = XLSX.utils.book_new();
+
+					// Chuyển đổi dữ liệu bảng thành sheet
+					var ws = XLSX.utils.table_to_sheet(originalTable);
+
+					// Thêm sheet vào workbook
+					XLSX.utils.book_append_sheet(wb, ws, 'Báo cáo doanh thu');
+
+					// Xuất file Excel
+					XLSX.writeFile(wb, 'BaoCaoDoanhThu.xlsx');
+
+				});
+	</script>
+	<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+	<script src="https://code.highcharts.com/highcharts.js"></script>
+	<script src="https://code.highcharts.com/modules/exporting.js"></script>
+
+	<script th:inline="javascript">
+	function myFunction() {
+    let x = document.getElementById("yearValue");
+    alert(x.value)
+    document.getElementById("myForm").submit();
+    }
+    var month = /*[[${monthjson}]]*/ [];
+	
+	var monthreports = JSON.parse(month);
+	console.log("Report data parse:", monthreports);
+    const monthData = monthreports.map(month => month.month); // Tháng
+    const sumPriceData = monthreports.map(month => month.sumPrice); // Tổng doanh thu
+    const countDatacounttk = monthreports.map(month => month.count); // Số lượt đặt vé 
+    console.log("Report data month:", monthData);
+    Highcharts.chart('monthRevenue', {
+        chart: { type: 'line' },
+        title: { text: '' },
+        xAxis: {
+            categories: monthData, // Trục X là tên tuyến
+            crosshair: true,
+            title: { text: 'Tháng' }
+        },
+        yAxis: [
+            { // Trục Y thứ nhất: Doanh thu
+                title: { text: 'Doanh thu (VND)' },
+                labels: {
+                    format: '{value} VND',
+                    style: { color: '#007bff' }
+                }
+            },
+            { // Trục Y thứ hai: Lượt đặt vé
+                title: { text: 'Lượt đặt vé' },
+                labels: {
+                    format: '{value} lượt',
+                    style: { color: '#28a745' }
+                },
+                opposite: true // Hiển thị trục Y thứ hai bên phải
+            }
+        ],
+        tooltip: {
+            shared: true,
+            useHTML: true,
+            headerFormat: '<b>Tháng {point.key}</b><br>',
+            pointFormat: '<span style="color:{series.color}">{series.name}</span>: <b>{point.y}</b><br>'
+        },
+        series: [
+            {
+                name: 'Doanh thu (VND)', // Doanh thu
+                type: 'column', // Dạng đường cong
+                data: sumPriceData,
+                color: '#007bff',
+                yAxis: 0 // Gắn với trục Y đầu tiên
+            },
+            {
+                name: 'Lượt đặt vé', // Lượt đặt vé
+                type: 'spline', // Dạng đường cong
+                data: countDatacounttk,
+                color: '#28a745',
+                yAxis: 1 // Gắn với trục Y thứ hai
+            }
+            
+        ]
+    	});
+	
+	</script>
+
+	<script th:inline="javascript">
+    var report = /*[[${jsonArray}]]*/ [];
+    
+    var reports = JSON.parse(report);
+    console.log("Report data:", reports);
+
+    const categories = reports.map(report => report.route_name); // Tên tuyến
+    const sumData = reports.map(report => report.sum); // Tổng doanh thu
+    const countData = reports.map(report => report.count); // Số lượt đặt vé 
+
+    // Cấu hình Highcharts với trục Y kép
+    Highcharts.chart('container', {
+        chart: { type: 'column' },
+        title: { text: 'Báo cáo doanh thu' },
+        xAxis: {
+            categories: categories, // Trục X là tên tuyến
+            crosshair: true,
+            title: { text: 'Tuyến đường' }
+        },
+        yAxis: [
+            { // Trục Y thứ nhất: Doanh thu
+                title: { text: 'Doanh thu (VND)' },
+                labels: {
+                    format: '{value} VND',
+                    style: { color: '#007bff' }
+                }
+            }
+        ],
+        tooltip: {
+            shared: true,
+            useHTML: true,
+            headerFormat: '<b>Tuyến {point.key}</b><br>',
+            pointFormatter: function () {
+                return `<span style="color:${this.color}">${this.series.name}</span>: <b>${this.y}</b><br>`;
+            }
+        },
+        series: [
+            {
+                name: 'Doanh thu (VND)', // Doanh thu
+                type: 'column',
+                data: sumData,
+                color: '#007bff',
+                yAxis: 0 // Gắn với trục Y đầu tiên
+            }
+        ]
+    });
+</script>
+
+	<script th:inline="javascript">
+    var report = /*[[${jsonArray}]]*/ [];
+    
+    var reports = JSON.parse(report);
+    console.log("Report data:", reports);
+
+    const categoriescount = reports.map(report => report.route_name); // Tên tuyến
+    const sumDatacount = reports.map(report => report.sum); // Tổng doanh thu
+    const countDatacount = reports.map(report => report.count); // Số lượt đặt vé 
+
+    // Cấu hình Highcharts với trục Y kép
+    Highcharts.chart('ticketcount', {
+        chart: { type: 'column' },
+        title: { text: 'Báo cáo lượt đặt vé' },
+        xAxis: {
+            categories: categories, // Trục X là tên tuyến
+            crosshair: true,
+            title: { text: 'Số lượng đặt vé' }
+        },
+        yAxis: [
+            { // Trục Y thứ nhất: Doanh thu
+                title: { text: 'Lượt đặt vé' },
+                labels: {
+                    style: { color: '#007bff' }
+                }
+            },
+        ],
+        tooltip: {
+            shared: true,
+            useHTML: true,
+            headerFormat: '<b>Tuyến {point.key}</b><br>',
+            pointFormatter: function () {
+                return `<span style="color:${this.color}">${this.series.name}</span>: <b>${this.y}</b><br>`;
+            }
+        },
+        series: [
+            {
+                name: 'Lượt đặt vé', // Lượt đặt vé
+                type: 'spline', // Dạng đường cong
+                data: countData,
+                color: '#28a745',
+                
+            }
+        ]
+    });
+</script>
+	
+	
+	
+</body>
+
+</html>

@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html xmlns:th="https://www.thymeleaf.org"
+	xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity6">
+
+<head>
+<meta charset="UTF-8">
+<title>Tra cứu</title>
+<link
+	href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
+	rel="stylesheet"
+	integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH"
+	crossorigin="anonymous">
+<link
+	href="https://fonts.googleapis.com/css?family=Poppins:100,100i,200,200i,300,300i,400,400i,500,500i,600,600i,700,700i,800,800i,900,900i"
+	rel="stylesheet">
+
+<link href="https://fonts.googleapis.com/css?family=Rufina:400,700"
+	rel="stylesheet">
+<script
+	src="https://cdn.jsdelivr.net/npm/datalist-css/dist/datalist-css.min.js"></script>
+<link rel="stylesheet"
+	href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+<link rel="stylesheet" type="text/css" href="/js/slick/slick.css" />
+<link rel="stylesheet" type="text/css" href="/slick/slick-theme.css" />
+<link rel="stylesheet"
+	href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+<link rel="stylesheet" href="/css/search.css">
+<link rel="stylesheet" href="/css/font-awesome.min.css">
+<link rel="stylesheet" href="/css/linearicons.css">
+<link rel="stylesheet" href="/css/flaticon.css">
+<link rel="stylesheet" href="/css/animate.css">
+<link rel="stylesheet" href="/css/owl.carousel.min.css">
+<link rel="stylesheet" href="/css/owl.theme.default.min.css">
+<link rel="stylesheet" href="/css/style2.css">
+<link rel="stylesheet" href="/css/responsive.css">
+<link
+	href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css"
+	rel="stylesheet" />
+<link rel="stylesheet" href="/css/select2.css">
+
+<style>
+h2 {
+	font-family: 'Montserrat-Bold', sans-serif;
+	font-size: 24px;
+	font-weight: 600;
+	text-align: center;
+	color: #006bcf;
+	margin-bottom: 20px;
+}
+
+.form-control {
+	width: 100%;
+	height: 40px;
+	padding: 10px 20px;
+	border: 2px solid #ccc;
+	border-radius: 30px;
+	font-size: 14px;
+	transition: border-color 0.3s ease, box-shadow 0.3s ease;
+	z-index: 10; /* Đảm bảo input ở trên các phần tử khác */
+}
+
+.form-control:focus {
+	border-color: #006bcf;
+	box-shadow: 0 0 5px rgba(0, 107, 207, 0.5);
+	outline: none;
+	z-index: 20;
+}
+
+.btn-primary {
+	background-color: #006bcf;
+	border: none;
+	color: #fff;
+	font-size: 16px;
+	font-weight: bold;
+	padding: 10px 15px;
+	border-radius: 30px;
+	width: 100%;
+	text-align: center;
+	transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+.btn-primary:hover {
+	background-color: #0056b3;
+	transform: translateY(-2px);
+}
+
+.btn-primary:active {
+	background-color: #004080;
+	transform: translateY(0);
+}
+
+.result {
+	margin-top: 20px;
+	padding: 15px;
+	border: 1px solid #28a745;
+	background-color: #d4edda;
+	color: #155724;
+	border-radius: 8px;
+	font-size: 14px;
+	display: none;
+}
+
+.result h4 {
+	font-weight: bold;
+	color: #155724;
+}
+.welcome-hero-txt{
+	padding: 0px
+}
+</style>
+
+<body>
+	<div id="home" class="welcome-hero mb-5">
+		<div th:insert="~{/views/home_items/header::header}"></div>
+		
+	</div>
+	<div class="container mt-5">
+				<h2 class="text-center mb-4">Tra Cứu Vé</h2>
+				<form id="searchForm" action="/home/ticket/check" th:object="${ticket}" method="post">
+					<div class="mb-3">
+				<label for="ticketCode" class="form-label">Mã vé</label> 
+				<input th:field="*{ticketCode}" type="text" class="form-control"
+					id="ticketCode" placeholder="Nhập mã vé" required>
+			</div>
+					<button type="submit" class="btn btn-primary">Tra Cứu</button>
+				</form>
+				<div class="" id="result">
+					<h4>Kết quả:</h4>
+					<p id="resultContent">[[${message}]]</p>
+					<div class="card" th:each="items : ${tickets}">
+						<div class="card-body">
+							<div class="card-text text-start">
+							<p>[[${items.ticketCode}]]</p>
+							<p>[[${items.account.fullname}]]</p>
+							<p>[[${#numbers.formatDecimal(items.trip.price, 0, 'COMMA', 0, 'POINT')}]] VND </p>		
+							<p>Trạng Thái thanh toán:</p>
+							<p th:if="${items.paymentstatus == 'True'}"> Vé đã thanh toán </p>	
+							<p th:if="${items.paymentstatus == 'False'}"> Vé chưa thanh toán </p>
+							<p>Xe: [[${items.trip.bus.name}]]</p>
+							<p>Tuyến : [[${items.trip.route.name}]] -- Chuyến : [[${items.trip.startTime}]] </p>
+							<p></p>
+							<p>Khởi hành : [[${items.trip.departureDate}]]</p>
+							<p>Điểm đón : [[${items.departure}]]</p>
+							<p>Điểm trả : [[${items.destination}]]</p>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+
+		<br> <br>
+		<footer>
+			<div th:replace="~{/views/home_items/footer::footer}"></div>
+		</footer>
+
+
+
+
+
+
+<!-- 	<script>
+    const tickets = [
+      { code: 'ABC123', phone: '0901234567', name: 'Nguyễn Văn A', date: '25/12/2024', route: 'Sài Gòn - Đà Lạt', price: '150,000 VNĐ' },
+      { code: 'XYZ456', phone: '0912345678', name: 'Trần Thị B', date: '26/12/2024', route: 'Hà Nội - Nha Trang', price: '250,000 VNĐ' },
+      { code: 'LMN789', phone: '0923456789', name: 'Lê Quang C', date: '27/12/2024', route: 'Đà Nẵng - Huế', price: '100,000 VNĐ' }
+    ];
+
+    function searchTicket(code, phone) {
+      return tickets.find(ticket => ticket.code === code && ticket.phone === phone);
+    }
+
+    document.getElementById('searchForm').addEventListener('submit', function (e) {
+      e.preventDefault();
+      const ticketCode = document.getElementById('ticketCode').value.trim();
+      const phoneNumber = document.getElementById('phoneNumber').value.trim();
+      const resultDiv = document.getElementById('result');
+      const resultContent = document.getElementById('resultContent');
+
+      const ticket = searchTicket(ticketCode, phoneNumber);
+
+      if (ticket) {
+        resultDiv.style.display = 'block';
+        resultContent.innerHTML = `
+          <strong>Mã Vé:</strong> ${ticket.code}<br>
+          <strong>Số Điện Thoại:</strong> ${ticket.phone}<br>
+          <strong>Họ Tên:</strong> ${ticket.name}<br>
+          <strong>Ngày Di Chuyển:</strong> ${ticket.date}<br>
+          <strong>Tuyến:</strong> ${ticket.route}<br>
+          <strong>Giá Vé:</strong> ${ticket.price}
+        `;
+      } else {
+        resultDiv.style.display = 'block';
+        resultContent.innerHTML = '<strong>Không tìm thấy vé với mã và số điện thoại bạn đã nhập.</strong>';
+      }
+    });
+  </script> -->
+
+	<script
+		src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+	<script src="https://kit.fontawesome.com/4d7dddcdb6.js"></script>
+	<script src="/js/jquery-3.2.1.min.js"></script>
+	<script src="/js/popper.min.js"></script>
+	<!-- <script src="/js/bootstrap.min.js"></script> -->
+	<script type="text/javascript"
+		src="//code.jquery.com/jquery-migrate-1.2.1.min.js"></script>
+	<script type="text/javascript" src="/js/slick/slick.min.js"></script>
+	<script type="text/javascript" src="/js/slick/slick-setting.js"></script>
+	<script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+	<script src="/js/jquery.js"></script>
+	<script
+		src="https://cdnjs.cloudflare.com/ajax/libs/modernizr/2.8.3/modernizr.min.js"></script>
+	<script src="/js/bootstrap.min.js"></script>
+	<script src="/js/owl.carousel.min.js"></script>
+	<script
+		src="https://cdnjs.cloudflare.com/ajax/libs/jquery-easing/1.4.1/jquery.easing.min.js"></script>
+	<script src="/js/custom.js"></script>
+	<script
+		src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+
+</body>
+</html>
+

@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html xmlns:th="https://www.thymeleaf.org"
+      xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity6">
+<head>
+    <meta charset="UTF-8">
+    <title>PROFILE</title>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <!-- Main CSS -->
+    <link rel="stylesheet" type="text/css" href="/css/main.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/boxicons@latest/css/boxicons.min.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/2.1.2/sweetalert.min.js"></script>
+
+    <style>
+        .profile-image {
+            width: 150px;
+            height: 150px;
+            object-fit: cover;
+            border-radius: 50%;
+            border: 2px solid #ddd;
+        }
+
+        .file-instructions {
+            font-size: 0.9rem;
+            color: #6c757d;
+        }
+
+        .image-preview {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .image-preview img {
+            margin-bottom: 10px;
+        }
+    </style>
+</head>
+
+<body onload="time()" class="app sidebar-mini rtl">
+    <!-- Navbar -->
+    <div th:replace="~{/views/manager_items/header::header}"></div>
+
+    <!-- Sidebar menu -->
+    <div class="app-sidebar__overlay" data-toggle="sidebar"></div>
+    <aside class="app-sidebar">
+        <div class="app-sidebar__user">
+            <div>
+                <p class="app-sidebar__user-name">
+                    <b>[[${accounts.username}]]</b>
+                </p>
+                <p class="app-sidebar__user-designation">Chào mừng bạn trở lại</p>
+            </div>
+        </div>
+        <hr>
+        <ul class="app-menu">
+            <li><a class="app-menu__item active" th:href="@{'/profile?username=' + ${#authentication.name}}">
+                <i class='app-menu__icon bx bx-id-card'></i> <span class="app-menu__label">PROFILE</span></a></li>
+            <li><a class="app-menu__item" th:href="@{'/profile/history?email=' + ${accounts.email}}">Lịch sử mua vé</a></li>
+        </ul>
+    </aside>
+
+    <main class="app-content">
+        <div class="app-title">
+            <ul class="app-breadcrumb breadcrumb side">
+                <li class="breadcrumb-item active"><a href="#"><b>PROFILE</b></a></li>
+            </ul>
+            <div id="clock"></div>
+        </div>
+
+        <div class="row">
+            <div class="container form-container">
+                <h2 class="text-center mb-4">Hồ Sơ Của Tôi</h2>
+                <h3 class="text-center mb-4">Quản lý thông tin hồ sơ tài khoản mật khẩu</h3>
+                <hr>
+
+                <!-- Hiển thị thông báo lỗi nếu có -->
+                <div th:if="${error}" class="alert alert-danger">
+                    <p th:text="${error}"></p>
+                </div>
+
+                <form th:object="${accounts}" action="/profile" method="post" enctype="multipart/form-data">
+                    <div class="form-row">
+                        <!-- Left Column -->
+                        <input type="hidden" th:field="*{id}" />
+                        <input type="hidden" th:field="*{role}" />
+                        <input type="hidden" th:field="*{password}" />
+                        <input type="hidden" th:field="*{username}" />
+                        <input type="hidden" th:field="*{isEnabled}"  > 
+
+                        <div class="col-md-8">
+                            <div class="form-group">
+                                <label for="name" class="form-label">Họ và Tên</label>
+                                <input th:field="*{fullname}" type="text" class="form-control" required="required">
+                            </div>
+
+                            <div class="form-group">
+                                <label for="email" class="form-label">Email</label>
+                                <input th:field="*{email}" th:errorClass="is-invalid" type="email" class="form-control" required="required">
+                            </div>
+
+                            <div class="form-group">
+                                <label for="phone" class="form-label">Số điện thoại</label>
+                                <input th:field="*{phone}" th:errorClass="is-invalid" type="text" class="form-control" required="required">
+                            </div>
+
+                            <div class="form-group">
+                                <label class="form-label">Giới tính</label>
+                                <div class="d-flex">
+                                    <div class="form-check form-check-inline">
+                                        <input class="form-check-input" th:field="*{gender}" type="radio" name="flexRadioDefault" value="true" checked>
+                                        <label class="form-check-label">Male</label>
+                                    </div>
+                                    <div class="form-check form-check-inline">
+                                        <input class="form-check-input" th:field="*{gender}" type="radio" name="flexRadioDefault" value="false">
+                                        <label class="form-check-label">Female</label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Right Column (Profile Image) -->
+                        <div class="col-md-4 text-center image-preview">
+                            <input type="file" class="form-control-file" id="profile-image" name="file" onchange="previewImage(event)">
+
+                            <img th:src="@{'/img/'+${accounts.avatar}}" alt="Profile Image" class="profile-image" id="preview" style="display: block;" />
+
+                            <p class="file-instructions mt-2">Dung lượng file tối đa 1MB. Định dạng: JPEG, PNG.</p>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <button type="submit" class="btn btn-primary">Lưu</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </main>
+
+    <!-- JavaScript -->
+    <script>
+        function previewImage(event) {
+            const fileInput = event.target; // Lấy input file
+            const preview = document.getElementById('preview'); // Thẻ <img> để hiển thị ảnh
+            const file = fileInput.files[0]; // Lấy file đã chọn
+
+            // Kiểm tra xem file có tồn tại và có định dạng ảnh hợp lệ
+            if (file) {
+                if (file.size > 1024 * 1024) {
+                    swal("Lỗi", "Dung lượng tệp vượt quá 1MB!", "error");
+                    return;
+                }
+
+                if (file.type === 'image/jpeg' || file.type === 'image/png') {
+                    const reader = new FileReader();
+
+                    // Khi file được tải, đặt URL của ảnh vào thuộc tính `src` của thẻ <img>
+                    reader.onload = function (e) {
+                        preview.src = e.target.result; // Cập nhật ảnh hiển thị
+                        preview.style.display = 'block'; // Hiển thị ảnh
+                    };
+
+                    reader.readAsDataURL(file); // Đọc file dưới dạng URL
+                } else {
+                    swal("Lỗi", "Vui lòng chọn tệp hình ảnh đúng định dạng (JPEG hoặc PNG)!", "error");
+                    preview.src = ''; // Xóa ảnh hiện tại
+                    preview.style.display = 'none'; // Ẩn thẻ <img>
+                }
+            }
+        }
+    </script>
+</body>
+</html>

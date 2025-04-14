@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Danh sách trạm xe buýt</title>
+</head>
+<body>
+    <h1>Danh sách trạm xe buýt</h1>
+    <a href="/bus-stations/new">Thêm trạm xe buýt mới</a>
+    <table border="1">
+        <tr>
+            <th>ID</th>
+            <th>Tên</th>
+            <th>Số điện thoại</th>
+            <th>Địa điểm</th>
+        </tr>
+        <tr th:each="busStation : ${busStations}">
+            <td th:text="${busStation.id}"></td>
+            <td th:text="${busStation.name}"></td>
+            <td th:text="${busStation.phoneNumber}"></td>
+            <td th:text="${busStation.location.name}"></td>
+        </tr>
+    </table>
+</body>
+</html>

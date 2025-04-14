@@ -1,0 +1,134 @@
+.welcome-hero {
+    position: relative;
+    background:url(../img/background.jpg)no-repeat;
+    background-position: center;
+    height: 500px;
+    z-index: 1;
+}
+.welcome-hero:before {
+    position: absolute;
+    content: "";
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(42,45,84,.60);
+}
+.header-area{position: absolute;top:0;left:0;width: 100%;z-index: 99;}
+
+/*.welcome-hero-txt*/
+.welcome-hero-txt{text-align: center;padding:50px 0 372px;}
+.welcome-hero-txt h2 {
+    font-size: 42px;
+    color: #fff;
+    font-weight: 700;
+    text-transform: uppercase;
+    margin-bottom: 45px;
+}
+.welcome-hero-txt p {
+    font-size: 18px;
+    text-transform: initial;
+    color: #fff;
+    font-weight: 500;
+    max-width: 735px;
+    margin: 0 auto;
+}
+.welcome-btn {
+    display: inline-block;
+    width: 230px;
+    height: 60px;
+    background: #4e4ffa;
+    color: #fff;
+    border-radius: 3px;
+    margin-top: 55px;
+    -webkit-transition: .3s linear; 
+    -moz-transition:.3s linear; 
+    -ms-transition:.3s linear; 
+    -o-transition:.3s linear;
+    transition: .3s linear;
+}
+.welcome-btn:hover{
+    background: #0102fa;
+}
+.card {
+    border: 1px solid #0056b3;
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Thêm bóng đổ nhẹ cho card */
+    transition: transform 0.3s, box-shadow 0.3s;
+    background-color: white;
+    margin-bottom: 30px; /* Khoảng cách dưới card */
+}
+
+/* .card:hover {
+    transform: translateY(-10px); Hiệu ứng nâng card khi hover
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2); Tăng độ bóng khi hover
+}
+ */
+.card-img-top {
+    width: 100%;
+    height: 200px; /* Giới hạn chiều cao ảnh */
+    object-fit: cover; /* Đảm bảo ảnh không bị méo */
+    border-bottom: 1px solid #ddd; /* Thêm đường viền giữa ảnh và nội dung card */
+}
+
+.featured-cars-txt h2 {
+    text-align: center;
+    font-size: 1.2rem;
+    font-weight: 600;
+    color: #333;
+    margin-top: 15px; /* Khoảng cách trên cho tiêu đề */
+}
+
+.featured-cars-txt a {
+    text-decoration: none;
+    color: #333;
+    transition: color 0.3s ease;
+}
+
+.featured-cars-txt a:hover {
+    color: #4e4ffa; /* Thay đổi màu khi hover lên tiêu đề */
+}
+
+.card-body {
+    padding: 15px;
+    text-align: center; /* Căn giữa nội dung trong card */
+}
+
+.card-body p {
+    font-size: 1rem;
+    color: #6c757d;
+    margin-top: 10px; /* Khoảng cách cho phần mô tả */
+}
+
+.section-header h2 {
+    font-size: 2rem;
+    font-weight: 700;
+    color: #000;
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.section-header h2::after {
+    content: "";
+    display: block;
+    width: 60px;
+    height: 3px;
+    background: #4e4ffa;
+    margin: 10px auto 0;
+}
+
+.featured-cars-content .row {
+    margin-bottom: 30px; /* Khoảng cách dưới mỗi hàng */
+}
+
+@media (max-width: 768px) {
+    .card-img-top {
+        height: 200px; /* Giảm chiều cao ảnh cho màn hình nhỏ */
+    }
+
+    .featured-cars-txt h2 {
+        font-size: 1rem;
+    }
+}
+

@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html xmlns:th="https://www.thymeleaf.org"
+	xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity6">
+<head>
+<meta charset="UTF-8">
+<title>Account</title>
+<link
+	href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
+	rel="stylesheet">
+<script
+	src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+<!-- Main CSS-->
+<link rel="stylesheet" type="text/css" href="/css/main.css">
+<link rel="stylesheet"
+	href="https://cdn.jsdelivr.net/npm/boxicons@latest/css/boxicons.min.css">
+<link rel="stylesheet"
+	href="https://unpkg.com/boxicons@latest/css/boxicons.min.css">
+<!-- Font-icon css-->
+<link rel="stylesheet" type="text/css"
+	href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+<script
+	src="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/2.1.2/sweetalert.min.js"></script>
+<link rel="stylesheet"
+	href="https://use.fontawesome.com/releases/v5.8.2/css/all.css">
+<link rel="stylesheet"
+	href="https://cdnjs.cloudflare.com/ajax/libs/jquery-confirm/3.3.2/jquery-confirm.min.css">
+<script
+	src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.16.2/xlsx.full.min.js"></script>
+</head>
+<body onload="time()" class="app sidebar-mini rtl">
+	<div th:replace="~{/views/manager_items/header::header}"></div>
+	<div class="app-sidebar__overlay" data-toggle="sidebar"></div>
+	<div th:insert="~{/views/account_items/side_bar::side_bar}"></div>
+	<main class="app-content">
+		<div class="row">
+			<div class="col-md-12">
+				<div class="app-title">
+					<ul class="app-breadcrumb breadcrumb">
+						<li class="breadcrumb-item"><b>Quản lí User</b></li>
+					</ul>
+					<div id="clock"></div>
+				</div>
+			</div>
+		</div>
+		<div class="row">
+			<div>
+				<form id="accountForm" th:object="${account}"
+					action="/manager/account/edit" enctype="multipart/form-data" method="post">
+					<input type="hidden" th:field="*{id}" />
+					<input type="hidden" th:field="*{email}"> 
+					<input type="hidden" th:field="*{password}"> 
+					<input type="hidden" th:field="*{phone}" > 
+					<input type="hidden" th:field="*{gender}"  > 
+					<input type="hidden" th:field="*{isEnabled}"  > 
+					<input type="hidden" th:field="*{avatar}"  > 
+					<div class="mb-3">
+						<label class="form-label">User</label> <input
+							th:field="*{username}" class="form-control" id="username" />
+					</div>
+					<div class="mb-3">
+						<label class="form-label">Tên đầy đủ</label> <input
+							th:field="*{fullname}" class="form-control" id="fullname" />
+					</div>
+					<div class="mb-3">
+						<label class="form-label">Role</label> <select th:field="*{role}"
+							class="form-control" id="role">
+							<option value="" disabled selected>Chọn vai trò</option>
+							<option value='staff'>Staff</option>
+							<option value='authenticated'>User</option>
+						</select>
+					</div>
+					<button type="button" class="btn btn-primary"
+						onclick="validateForm()">Save</button>
+					<button type="button" class="btn btn-danger"
+						onclick="validateRemove()">Remove</button>
+<!-- 					<button formaction="/manager/account/reset" class="btn btn-success">Reset</button>
+ -->				</form>
+			</div>
+		</div>
+	</main>
+	<!-- Essential javascripts for application to work-->
+	<script src="/js/jquery-3.2.1.min.js"></script>
+	<script src="/js/popper.min.js"></script>
+	<script src="/js/bootstrap.min.js"></script>
+	<script
+		src="//ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+	<script src="/src/jquery.table2excel.js"></script>
+	<script src="/js/main.js"></script>
+	<!-- The javascript plugin to display page loading on top-->
+	<script src="/js/plugins/pace.min.js"></script>
+	<!-- Page specific javascripts-->
+	<script
+		src="https://cdnjs.cloudflare.com/ajax/libs/jquery-confirm/3.3.2/jquery-confirm.min.js"></script>
+	<!-- Data table plugin-->
+	<script type="text/javascript"
+		src="/js/plugins/jquery.dataTables.min.js"></script>
+	<script type="text/javascript"
+		src="/js/plugins/dataTables.bootstrap.min.js"></script>
+	<script type="text/javascript">
+		$('#sampleTable').DataTable();
+	</script>
+	<script type="text/javascript" src="/js/time.js"></script>
+	<script>
+        // Validate form submission
+        function validateForm() {
+            // Get input values
+            let username = document.getElementById("username").value.trim();
+            let fullname = document.getElementById("fullname").value.trim();
+            let role = document.getElementById("role").value.trim();
+
+            // Validate username
+            if (username === "") {
+                swal("Error", "Vui lòng nhập User!", "warning");
+                return;
+            }
+
+            // Validate fullname
+            if (fullname === "") {
+                swal("Error", "Vui lòng nhập Tên đầy đủ!", "warning");
+                return;
+            }
+
+            // Validate role
+            if (role === "") {
+                swal("Error", "Vui lòng nhập Role!", "warning");
+                return;
+            }
+
+            // Submit form if all validations pass
+            document.getElementById("accountForm").submit();
+        }
+
+        // Validate remove action
+        function validateRemove() {
+            swal({
+                title: "Xác nhận xóa",
+                text: "Bạn có chắc chắn muốn xóa dữ liệu này?",
+                icon: "warning",
+                buttons: ["Hủy", "Xác nhận"],
+                dangerMode: true,
+            }).then((willDelete) => {
+                if (willDelete) {
+                    document.getElementById("accountForm").action = "/manager/account/remove";
+                    document.getElementById("accountForm").submit();
+                }
+            });
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,295 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Tuyến Sài Gòn – Vũng Tàu đồng giá 100,000VNĐ mỗi chuyến xe</title>
+        <link
+	href="https://fonts.googleapis.com/css?family=Poppins:100,100i,200,200i,300,300i,400,400i,500,500i,600,600i,700,700i,800,800i,900,900i"
+	rel="stylesheet">
+
+<link href="https://fonts.googleapis.com/css?family=Rufina:400,700"
+	rel="stylesheet">
+<!-- Flatpickr CSS -->
+<script
+	src="https://cdn.jsdelivr.net/npm/datalist-css/dist/datalist-css.min.js"></script>
+<link rel="stylesheet"
+	href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+<link rel="stylesheet" type="text/css" href="/js/slick/slick.css" />
+<link rel="stylesheet" type="text/css" href="/slick/slick-theme.css" />
+<link rel="stylesheet"
+	href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+<link rel="stylesheet" href="/css/font-awesome.min.css">
+<link rel="stylesheet" href="/css/linearicons.css">
+<link rel="stylesheet" href="/css/flaticon.css">
+<link rel="stylesheet" href="/css/animate.css">
+<link rel="stylesheet" href="/css/owl.carousel.min.css">
+<link rel="stylesheet" href="/css/owl.theme.default.min.css">
+<link rel="stylesheet" href="/css/bootstrap.min.css">
+<link rel="stylesheet" href="/css/bootsnav.css">
+<link rel="stylesheet" href="/css/style.css">
+<link rel="stylesheet" href="/css/responsive.css">
+<script
+	src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+        }
+       .news-section {
+    margin: 20px 0;
+}
+
+.news-section h1, .news-section h2 {
+    color: #ff5733;
+    font-weight: bold;
+    text-align: center;
+}
+
+.news-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-between;
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.news-item img {
+    width: 100%;
+    height: 200px; /* Thiết lập chiều cao cố định cho hình ảnh */
+    object-fit: cover; /* Giữ tỷ lệ hình ảnh và không bị méo */
+    border-radius: 8px;
+    margin-bottom: 10px;
+}
+        .cta-button {
+            display: block;
+            width: 200px;
+            margin: 20px auto;
+            padding: 10px;
+            background: #28a745;
+            color: #fff;
+            text-align: center;
+            text-decoration: none;
+            border-radius: 5px;
+            font-size: 16px;
+            transition: background 0.3s;
+        }
+        .cta-button:hover {
+            background: #218838;
+        }
+        .footer {
+            background-color: #f8f9fa;
+            padding: 20px 0;
+            margin-top: 40px;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+        <!-- Header -->
+    <div th:fragment="header">
+		<section id="home" class="welcome-hero">
+			<!-- top-area Start -->
+			<div class="top-area">
+				<div class="header-area">
+					<!-- Start Navigation -->
+					<nav
+						class="navbar navbar-default bootsnav  navbar-sticky navbar-scrollspy"
+						data-minus-value-desktop="70" data-minus-value-mobile="55"
+						data-speed="1000">
+
+						<div class="container">
+
+							<!-- Start Header Navigation -->
+							<div class="navbar-header">
+								<button type="button" class="navbar-toggle"
+									data-toggle="collapse" data-target="#navbar-menu">
+									<i class="fa fa-bars"></i>
+								</button>
+								<a class="navbar-brand" href="/home">Booking Store</a>
+							</div>
+							<div class="collapse navbar-collapse menu-ui-design"
+								id="navbar-menu">
+								<ul class="nav navbar-nav navbar-right" data-in="fadeInDown"
+									data-out="fadeOutUp">
+									<li class=" scroll active"><a href="/home" >home</a></li>
+									<li class="scroll"><a href="/home/udnb">Ưu đãi nổi bật</a></li>
+									<li class="scroll"><a href="/home/tracuu">Tra Cứu</a></li>
+									<li class="scroll"><a href="/home/lienhe">Hỗ Trợ</a></li>
+									<li class="scroll dropdown"><a
+										class="nav-link dropdown-toggle link-light" href="#"
+										role="button" data-bs-toggle="dropdown" aria-expanded="false">
+											<span sec:authorize="isAnonymous()" style="font-size: 16px">Login</span>
+											<span sec:authorize="isAuthenticated()"> <i
+									class="fa-regular fa-user text-white " style="font-size: 16px"></i>
+							</span>
+										
+									</a>
+
+										<ul class="dropdown-menu w-50">
+											<li sec:authorize="isAnonymous()"><a
+												class="dropdown-item link-light" href="/login">Login</a>
+											</li>
+											<li sec:authorize="isAuthenticated()"><a
+												class="dropdown-item link-light" th:href="@{/logout}">Logout</a>
+											</li>
+											<li sec:authorize="hasAnyRole('admin','staff','manager')">
+												<a class="dropdown-item link-light" th:href="@{/manager}">
+													Manager </a>
+											</li>
+											<li sec:authorize="isAuthenticated()"><a
+												class="dropdown-item link-light"
+												th:href="@{/profile(username=${#authentication.name})}">ManagerUsers</a>
+											</li>
+										</ul></li>
+								</ul>
+								<!--/.nav -->
+							</div>
+							<!-- /.navbar-collapse -->
+						</div>
+						<!--/.container-->
+					</nav>
+					<!--/nav-->
+					<!-- End Navigation -->
+				</div>
+				<!--/.header-area-->
+				<div class="clearfix"></div>
+
+			</div>
+
+			<div class="container">
+				<div class="welcome-hero-txt">
+					<h2>Welcome To Booking Store</h2>
+					<p>Đặt vé nhanh chóng, dễ dàng, thuận tiện tại đây.</p>
+				</div>
+			</div>
+
+		</section>
+	</div>
+
+    <!-- Main Content -->
+    <div class="container">
+        <div class="news-section">
+            <h1>Tuyến Sài Gòn – Vũng Tàu đồng giá 100,000VNĐ mỗi chuyến xe</h1>
+            <br>
+            <img src="/img/nha-xe-hoang-nhan-1.jpg" style="width: 100%; max-height: 400px; object-fit: cover;" alt="Ưu đãi Đăng ký Tài khoản">
+            <div class="row mt-4">
+            <br>
+                <div class="col-12">
+                    <h4>Chi tiết chương trình:</h4>
+                    <p><strong>Thời gian áp dụng:</strong> Từ <span style="color:#28a745;">1/1/2025</span> đến <span style="color:#28a745;">25/1/2025</span>.</p>
+                    <p><strong>Đối tượng:</strong> Tất cả khách hàng đang mua vé tại trang web.</p>
+                    <h5>Nội dung:</h5>
+                    <ul>
+                        <li>Từ 1/1/2025 đến 25/1/2025.,Tuyến Sài Gòn – Vũng Tàu đồng giá 100,000VNĐ mỗi chuyến xe.</li>
+                    </ul>
+                </div>
+            </div>
+           
+        </div>
+
+        <!-- Other Promotions Section -->
+<div class="news-section">
+            <h2>ƯU ĐÃI KHÁC</h2>
+            <hr>
+            <div class="row">
+                <div class="col-md-3 news-item">
+                     <a href="/home/Uu-dai-tai-khoan"><img alt="Promotional image for SHB - FUTA partnership with various offers" src="/img/33.png" /></a>
+      <a href="/home/Uu-dai-tai-khoan" class="link-offset-2 link-underline link-underline-opacity-0 text-black">
+        TẠO TÀI KHOẢN NGAY NHẬN ƯU ĐÃI KHỦNG CHO NGƯỜI DÙNG MỚI
+      </a>
+                </div>
+                <div class="col-md-3 news-item">
+                    <a href="/home/Uu-dai-dat-ve"><img alt="Promotional image for SHB - FUTA partnership with various offers" src="/img/19.png" /></a>
+      <a href="/home/Uu-dai-dat-ve" class="link-offset-2 link-underline link-underline-opacity-0 text-black">ĐẶT VÉ SIÊU TIỆN CHỈ QUA APP NGÂN HÀNG KHI MUA VÉ QUA TRANG WEB</a>
+                </div>
+                <div class="col-md-3 news-item">
+                    <a href="/home/Uu-dai-tuyen-duong-2"><img alt="Promotional image for SHB - FUTA partnership with various offers" src="/img/thanh-buoi.webp" /></a>
+      <a href="/home/Uu-dai-tuyen-duong-2" class="link-offset-2 link-underline link-underline-opacity-0 text-black">Tuyến Sài Gòn – Bình Thuận đồng giá 150,000VNĐ mỗi chuyến xe</a>
+                </div>
+                <div class="col-md-3 news-item">
+                   <a href="/home/Uu-dai-tuyen-duong-3"><img alt="Promotional image for SHB - FUTA partnership with various offers" src="/img/xe-phuong-trang-3.webp" /></a>
+      <a href="/home/Uu-dai-tuyen-duong-3" class="link-offset-2 link-underline link-underline-opacity-0 text-black">Tuyến Sài Gòn – Đà Lạt đồng giá 150,000VNĐ mỗi chuyến xe</a>
+                </div>
+            </div>
+        </div>
+    </div>
+    </div>
+
+    <!-- Footer -->
+    <div class="footer">
+        <div th:replace="~{/views/home_items/footer::footer}"></div>
+    </div>
+
+    <!-- Scripts -->
+<script src="https://kit.fontawesome.com/4d7dddcdb6.js"></script>
+	<script src="/js/jquery-3.2.1.min.js"></script>
+	<script src="/js/popper.min.js"></script>
+	<script src="/js/bootstrap.min.js"></script>
+	<script type="text/javascript"
+		src="//code.jquery.com/jquery-migrate-1.2.1.min.js"></script>
+	<script type="text/javascript" src="/js/slick/slick.min.js"></script>
+	<script type="text/javascript" src="/js/slick/slick-setting.js"></script>
+	<script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+	<script>
+        // Kích hoạt Flatpickr
+        flatpickr("#departureDate", {
+            dateFormat: "d/m/Y",
+            defaultDate: "today",
+            minDate: "today",
+            locale: "vn"
+        });
+
+        flatpickr("#returnDate", {
+            dateFormat: "d/m/Y",
+            minDate: "today",
+            locale: "vn"
+        });
+
+        // Toggle ngày về
+        function toggleReturnDate() {
+            const isRoundTrip = document.querySelector('input[name="tripType"]:checked').value === 'roundtrip';
+            document.getElementById('returnDateGroup').classList.toggle('hidden', !isRoundTrip);
+        }
+
+        // Hàm đổi vị trí giữa điểm đi và điểm đến
+        function swapLocations() {
+            // Hoán đổi giá trị giữa điểm đi và điểm đến
+            const departureInput = document.querySelector('[name="departure_name"]');
+    		const destinationInput = document.querySelector('[name="destination_name"]');
+            const temp = departureInput.value;
+            departureInput.value = destinationInput.value;
+            destinationInput.value = temp;
+
+            // Thêm hiệu ứng chuyển động cho biểu tượng
+            const switchIcon = document.querySelector('.switch-location');
+            switchIcon.classList.add('animate');
+
+            // Sau khi hoàn thành chuyển động, loại bỏ lớp 'animate'
+            setTimeout(() => {
+                switchIcon.classList.remove('animate');
+            }, 300);
+        }
+    </script>
+	<script src="/js/jquery.js"></script>
+
+	<!--modernizr.min.js-->
+	<script
+		src="https://cdnjs.cloudflare.com/ajax/libs/modernizr/2.8.3/modernizr.min.js"></script>
+
+	<!--bootstrap.min.js-->
+	<script src="/js/bootstrap.min.js"></script>
+
+	<!-- bootsnav js -->
+<!-- 	<script src="/js/bootsnav.js"></script> -->
+
+	<!--owl.carousel.js-->
+	<script src="/js/owl.carousel.min.js"></script>
+
+	<script
+		src="https://cdnjs.cloudflare.com/ajax/libs/jquery-easing/1.4.1/jquery.easing.min.js"></script>
+
+	<!--Custom JS-->
+	<script src="/js/custom.js"></script>
+</body>
+</html>

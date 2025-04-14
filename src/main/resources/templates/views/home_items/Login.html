@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html xmlns:th="https://www.thymeleaf.org">
+
+<head>
+<meta charset="UTF-8">
+<title>Login</title>
+<link
+	href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
+	rel="stylesheet"
+	integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH"
+	crossorigin="anonymous">
+<script
+	src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+	integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
+	crossorigin="anonymous"></script>
+</head>
+
+<body>
+
+	<div class="container">
+		<div class="row mt-5">
+			<div class="col-md-6 text-center ">
+				<h4 class="text-primary">Online Booking Mall</h4>
+				<h2>Đặt vé nhanh, dễ dàng</h2>
+			</div>
+			<div class="col-md-6 card p-3 shadow-lg" style="width: 21rem;">
+				<form class="form form-control-sm" th:action="@{/login}"
+					method="post" th:object="${account}">
+					<div class="mb-3">
+						<label class="form-label">Email của bạn</label>
+						<div class="input-group mb-3">
+							<span class="input-group-text" id="basic-addon1"><i
+								class="fa-solid fa-user"></i></span> <input type="text"
+								class="form-control" th:field="*{username}" />
+						</div>
+						<p th:if="${#fields.hasErrors('username')}"
+							th:errors="*{username}" />
+						<!-- <span class="badge text-bg-danger">[[message]]</span> -->
+					</div>
+					<div class="mb-3">
+						<label class="form-label">Password</label>
+						<div class="input-group mb-3">
+							<span class="input-group-text" id="basic-addon2"><i
+								class="fa-solid fa-key"></i></span> <input type="password"
+								class="form-control" th:field="*{password}" />
+						</div>
+					</div>
+
+					<div class="mb-3 badge text-bg-danger text-center"
+						th:if="${param.error}">Tài khoản hoặc mật khẩu không đúng</div>
+					<div class="mb-3 badge text-bg-danger text-center"
+						th:if="${param.message}">Vui lòng đăng nhập để tiếp tục dịch vụ</div>
+					<div class="mb-3">
+						<a href="/forget"
+							class="link-offset-2 link-underline link-underline-opacity-0">Forgot
+							Password ?</a>
+					</div>
+					<hr>
+					<button type="submit"
+						class="mb-3 btn btn-primary d-grid gap-2 col-10 mx-auto">Login</button>
+
+					<div class="mb-3">
+						<p class="fs-6 text-center">
+							Don't have an account ? <a href="/registration"
+								class="link-offset-2 link-underline link-underline-opacity-0">Sign
+								up</a>
+						</p>
+					</div>
+				</form>
+
+			</div>
+
+
+		</div>
+	</div>
+
+	<script>const tooltipTriggerList = document.querySelectorAll('[data-bs-toggle="tooltip"]')
+		const tooltipList = [...tooltipTriggerList].map(tooltipTriggerEl => new bootstrap.Tooltip(tooltipTriggerEl))
+	</script>
+
+</body>
+
+</html>

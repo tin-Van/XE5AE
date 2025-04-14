@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html xmlns:th="https://www.thymeleaf.org"
+	xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity6">
+<link
+	href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css"
+	rel="stylesheet" />
+<head>
+<meta charset="UTF-8">
+</head>
+
+<body th:fragment="table">
+	<div class="tile mb-5 mt-5">
+		<h3 class="tile-title">Chi tiết vé</h3>
+		<div class="">
+			<p> Tuyến : [[${trip.route.name}]]</p>
+			<table class="table table-hover table-bordered">
+				<thead>
+					<tr>
+						<th class="text-center">Tên nhà xe</th>
+						<th class="text-center">Số Ghế</th>
+						<th class="text-center">Giá bán</th>
+						<th class="text-center">Tổng tiền</th>
+						<th class="text-center">Thời gian xuất phát</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr>
+						<td>[[${trip.bus.name}]]</td>
+						<td>
+							<span th:each="seat, stat : ${selectedSeats}" > 
+								<span th:if="${seat != null and seat != ''}" th:text="${seat.seatNumber}">
+								</span>
+								<span th:if="${seat != null and seat != '' and !stat.last}">,</span>
+							</span>
+						</td>
+						<td>
+							[[${#numbers.formatDecimal(trip.price, 0, 'COMMA',
+								0, 'POINT')}]] VND
+								
+						</td>
+						<td id="price" >
+							[[${#numbers.formatDecimal(trip.price*count, 0, 'COMMA',
+								0, 'POINT')}]] VND
+								
+						</td>
+						<td>
+							[[${trip.startTime}]]
+						</td>
+						
+
+					</tr>
+				</tbody>
+			</table>
+		</div>
+		<div class="alert">
+
+			<i class="fas fa-exclamation-triangle"></i> Xem lại thông tin vé xe
+			của mình nhé
+		</div>
+	</div>
+	
+</body>
+
+	<script
+		src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
+	<script
+		src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+</html>

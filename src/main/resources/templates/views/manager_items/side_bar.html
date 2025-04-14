@@ -1,0 +1,74 @@
+
+<!DOCTYPE html>
+<html xmlns:th="https://www.thymeleaf.org"
+	xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity6">
+
+<head>
+<meta charset="UTF-8">
+</head>
+
+<body>
+	<aside class="app-sidebar" th:fragment="side_bar">
+		<div class="app-sidebar__user">
+			<div>
+				<p class="app-sidebar__user-name">
+				<p class="app-sidebar__user-name">
+					<b> [[${username}]] </b>
+				</p>
+				<p class="app-sidebar__user-designation">Chào mừng bạn trở lại</p>
+			</div>
+		</div>
+		<hr>
+		<ul class="app-menu">
+			<!-- Thanh điều khiển  -->
+			<li>
+				<a class="app-menu__item active" href="/manager">
+					<i class='app-menu__icon bx bx-tachometer'></i>
+					<span class="app-menu__label ">Bảng điều khiển </span>
+				</a>
+			</li>
+			<!-- Thanh quản lý trạm  -->
+			<li>
+				<a class="app-menu__item  " href="/manager/station">
+					<i class='app-menu__icon bx bx-id-card'></i> 
+					<span class="app-menu__label">Quản lý trạm</span></a>
+			</li>
+			<!-- Thanh quản xe  -->
+			<li>
+				<a class="app-menu__item  " href="/manager/bus">
+					<i class='app-menu__icon bx bx-id-card'></i> 
+					<span class="app-menu__label">Quản lý nhà xe</span></a>
+			</li>
+			<!-- Thanh quản tuyến đường  -->
+			<li>
+				<a class="app-menu__item " href="/manager/route">
+					<i class='app-menu__icon bx bx-purchase-tag-alt'></i> 
+					<span class="app-menu__label">Quản lý tuyến đường</span>
+				</a>
+			</li>
+			<!-- Thanh quản đơn vé  -->
+			<li>
+				<a class="app-menu__item " href="/manager/ticket">
+					<i class='app-menu__icon bx bx-task'></i>
+					<span class="app-menu__label">Quản lý đơn Vé</span>
+				</a>
+			</li>
+			<!-- Thanh quản doanh thu  -->
+			<li>
+				<a sec:authorize="hasRole('admin')" class="app-menu__item" href="/manager/report">
+					<i class='app-menu__icon bx bx-pie-chart-alt-2'></i>
+					<span class="app-menu__label">Báo cáo doanh thu</span>
+				</a>
+			</li>
+			<!-- Thanh quản account -->
+			<li>
+				<a sec:authorize="hasRole('admin')" class="app-menu__item" href="/manager/account">
+					<i class='app-menu__icon bx bx-id-card'></i>
+					<span class="app-menu__label">Quản lý account</span>
+				</a>
+			</li>
+		</ul>
+	</aside>
+</body>
+
+</html>

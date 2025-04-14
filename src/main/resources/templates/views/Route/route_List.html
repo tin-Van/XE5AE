@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+</head>
+<body th:fragment="list">
+	<div class="row">
+		<div class="col-md-12">
+			<div class="card  mb-2">
+				<div class="card-body" >
+					<div class="col-md-2" >
+						<a class="btn btn-add btn-sm"  href="/manager/route/edit"
+							title="Thêm"><i class="fas fa-plus"></i> Tạo mới tuyến đường
+						</a>
+						<span>[[${message}]]</span>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="row">
+		<div class="col-md-12">
+			<div class="tile p-4">
+				<div class="tile-body">
+					<table class="table table-hover table-bordered" id="sampleTable">
+						<thead>
+							<tr>
+								<th scope="col">Tên tuyến đường</th>
+								<th scope="col">Địa điểm khởi hành</th>
+								<th scope="col">Địa điểm đến</th>
+								<th scope="col">Trạm</th>
+								<th scope="col">Chuyến xe</th>
+								<th>Chức năng</th>
+							</tr>
+						</thead>
+						<tbody>
+
+							<tr th:each="items : ${routeList}">
+								<td th:text="*{items.name}"></td>
+								<td th:text="*{items.departure}"></td>
+								<td th:text="*{items.destination}"></td>
+								<td><a class="btn btn-primary"
+									th:href="@{'/manager/route/list/'+${items.id}}">Xem trạm xe </a></td>
+								<td><a class="btn btn-primary"
+									th:href="@{'/manager/trips/list/'+${items.id}}">Xem chuyến
+										xe </a></td>
+								<td><a class="btn btn-primary"
+									th:href="@{'/manager/route/edit/'+${items.id}}">Chỉnh sửa </a></td>
+							</tr>
+						</tbody>
+					</table>
+				</div>
+			</div>
+		</div>
+	</div>
+</body>
+</html>

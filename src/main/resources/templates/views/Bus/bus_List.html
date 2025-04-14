@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+</head>
+<body th:fragment="list">
+	<div class="row">
+			<div class="col-md-12">
+				<div class="card mb-2">
+					<div class="card-body">
+						<div class="col-sm-2">
+							<a class="btn btn-add btn-sm" href="/manager/bus/edit" title="Thêm"><i
+								class="fas fa-plus"></i> Tạo mới xe</a>
+						
+						</div>
+
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="row">
+			<div class="col-md-12">
+				<div class="tile p-4">
+					<div class="tile-body">
+						<table class="table table-hover table-bordered p-4" id="sampleTable">
+							<thead>
+								<tr>
+									<th>Tên xe</th>
+									<th>Hình ảnh</th>
+									<th>Mẫu xe</th>
+									<th>Biển số</th>
+									<th>Sức chứa</th>
+									<th>Chức năng</th>
+								</tr>
+							</thead>
+							<tbody>
+								<tr th:each="items : ${busList}">
+									<td th:text="*{items.name}"></td>
+									<td><img alt="" class="" style="width: 100px"
+										th:src="@{'/img/' + ${items.avatar}}"></td>
+									<td th:text="*{items.model}"></td>
+									<td th:text="*{items.licensePlate}"></td>
+									<td th:text="*{items.capacity}">${}</td>
+									<td><a class="btn btn-primary"
+										th:href="@{'/manager/bus/edit/' + ${items.id}}"> Chỉnh sửa  </a></td>
+								</tr>
+							</tbody>
+						</table>
+					</div>
+				</div>
+			</div>
+		</div>
+</body>
+</html>

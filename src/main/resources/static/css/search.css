@@ -1,0 +1,156 @@
+@charset "UTF-8";
+
+ .custom-container {
+            max-width: 1128px;
+            margin: auto;
+            background: #fff;
+            border: 1px solid rgba(58, 34, 239, 0.6);
+            border-radius: 1rem;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            padding: 1.5rem;
+            outline: 8px solid rgba(170, 46, 8, 0.1);
+            font-family: 'InterTight', sans-serif;
+            flex-direction: column;
+            align-items: center;
+        }
+        
+        /* Tiêu đề form */
+        .custom-container h5 {
+            font-size: 1.75rem;
+            font-weight: bold;
+            margin-bottom: 1rem;
+        }
+
+        /* Form input chung */
+        .custom-input {
+            width: 100%;
+            padding: 0.5rem 1rem;
+            border: 1px solid #ccc;
+            border-radius: 0.5rem;
+            font-size: 1rem;
+        }
+
+        /* Input lỗi */
+        .custom-input-error {
+            border-color: rgba(239, 82, 34, 0.8);
+        }
+
+        .text-error {
+            color: #e3342f;
+            font-size: 0.875rem;
+        }
+
+        /* Radio button */
+        .radio-group {
+            display: flex !important;
+            align-items: center;
+            margin-bottom: 1rem;
+        }
+
+        .radio-group label {
+            margin-right: 1rem;
+            font-weight: 500;
+            cursor: pointer;
+        }
+
+        .radio-group input {
+            margin-right: 0.5rem;
+        }
+        /* Căn giữa nút tìm chuyến */
+        .container-btn-search {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-top: 1.5rem; /* Khoảng cách trên */
+        }
+
+        /* Nút tìm chuyến */
+        .btn-search {
+            background-color: #3b82f6;
+            color: white;
+            padding: 0.5rem 1rem;
+            border-radius: 0.5rem;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        .btn-search:hover {
+            background-color: #2563eb;
+        }
+
+        /* Ngày về ẩn/hiện */
+        .hidden {
+            display: none;
+        }
+
+        /* Thông báo thành công */
+        .text-success {
+            color: #38a169;
+            font-size: 0.875rem;
+        }
+
+        /* Các phần tử nằm chung một hàng */
+        .flex-row {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1rem;
+            justify-content: space-between;
+        }
+
+        .flex-row .custom-input {
+            flex: 1 1 calc(33% - 1rem);
+        }
+
+        /* Nút radio khi được chọn */
+        .radio-group input[type="radio"]:checked + label {
+            color: #3b82f6; /* Màu chữ khi nút được chọn */
+        }
+
+        /* Màu sắc mặc định của label */
+        .radio-group label {
+            cursor: pointer;
+            font-weight: 500;
+            color: #333;
+        }
+
+        /* Nút radio khi được chọn */
+        .radio-group input[type="radio"]:checked {
+            accent-color: #3b82f6; /* Thay đổi màu nút radio khi chọn */
+        }
+
+        .radio-group input[type="radio"] {
+            accent-color: #3b82f6; /* Đổi màu nút radio */
+        }
+
+        /* Hiệu ứng chuyển động cho hình ảnh */
+        .switch-location {
+            cursor: pointer;
+            transition: transform 0.3s ease-in-out;
+        }
+
+        .switch-location.animate {
+            transform: rotate(180deg); /* Quay hình ảnh khi nhấp */
+        }
+
+        .row {
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .switch-location {
+            cursor: pointer;
+            width: 24px;
+            height: 24px;
+        }
+
+        .custom-input {
+            width: 100%;
+            padding: 10px;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+        }
+
+        .hidden {
+            display: none;
+        }
+        

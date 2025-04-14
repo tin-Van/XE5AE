@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html xmlns:th="https://www.thymeleaf.org"
+	xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity6">
+<head>
+<meta charset="UTF-8">
+<title>Account</title>
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<!-- Main CSS-->
+<link rel="stylesheet" type="text/css" href="/css/main.css">
+<link rel="stylesheet"
+	href="https://cdn.jsdelivr.net/npm/boxicons@latest/css/boxicons.min.css">
+<!-- or -->
+<link rel="stylesheet"
+	href="https://unpkg.com/boxicons@latests/css/boxicons.min.css">
+
+<!-- Font-icon css-->
+<link rel="stylesheet" type="text/css"
+	href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+<script
+	src="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/2.1.2/sweetalert.min.js"></script>
+<link rel="stylesheet"
+	href="https://use.fontawesome.com/releases/v5.8.2/css/all.css">
+<link rel="stylesheet"
+	href="https://cdnjs.cloudflare.com/ajax/libs/jquery-confirm/3.3.2/jquery-confirm.min.css">
+<script
+	src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.17.2/xlsx.full.min.js"></script>
+<!-- Thư viện xlsx -->
+</head>
+
+<body onload="time()" class="app sidebar-mini rtl">
+	<!-- Navbar-->
+	<div th:replace="~{/views/manager_items/header::header}"></div>
+	<!-- Sidebar menu-->
+	<div class="app-sidebar__overlay" data-toggle="sidebar"></div>
+	<aside class="app-sidebar">
+		<div class="app-sidebar__user">
+			<div>
+				<p class="app-sidebar__user-name">
+					<p class="app-sidebar__user-name"><b> [[${username}]] </b>
+				</p>
+				<p class="app-sidebar__user-designation">Chào mừng bạn trở lại</p>
+			</div>
+		</div>
+		<hr>
+		<ul class="app-menu">
+			<!-- Thanh điều khiển  -->
+			<li>
+				<a class="app-menu__item" href="/manager">
+					<i class='app-menu__icon bx bx-tachometer'></i>
+					<span class="app-menu__label ">Bảng điều khiển </span>
+				</a>
+			</li>
+			<!-- Thanh quản lý trạm  -->
+			<li>
+				<a class="app-menu__item  " href="/manager/station">
+					<i class='app-menu__icon bx bx-id-card'></i> 
+					<span class="app-menu__label">Quản lý trạm</span></a>
+			</li>
+			<!-- Thanh quản xe  -->
+			<li>
+				<a class="app-menu__item  " href="/manager/bus">
+					<i class='app-menu__icon bx bx-id-card'></i> 
+					<span class="app-menu__label">Quản lý nhà xe</span></a>
+			</li>
+			<!-- Thanh quản tuyến đường  -->
+			<li>
+				<a class="app-menu__item" href="/manager/route">
+					<i class='app-menu__icon bx bx-purchase-tag-alt'></i> 
+					<span class="app-menu__label">Quản lý tuyến đường</span>
+				</a>
+			</li>
+			<!-- Thanh quản đơn vé  -->
+			<li>
+				<a class="app-menu__item " href="/manager/ticket">
+					<i class='app-menu__icon bx bx-task'></i>
+					<span class="app-menu__label">Quản lý đơn Vé</span>
+				</a>
+			</li>
+			<!-- Thanh quản doanh thu  -->
+			<li>
+				<a class="app-menu__item" href="/manager/report">
+					<i class='app-menu__icon bx bx-pie-chart-alt-2'></i>
+					<span class="app-menu__label">Báo cáo doanh thu</span>
+				</a>
+			</li>
+			<!-- Thanh quản account -->
+			<li>
+				<a sec:authorize="hasRole('admin')" class="app-menu__item active" href="/manager/account">
+					<i class='app-menu__icon bx bx-id-card'></i>
+					<span class="app-menu__label">Quản lý account</span>
+				</a>
+			</li>
+		</ul>
+	</aside>
+	<main class="app-content">
+		<div class="app-title">
+			<ul class="app-breadcrumb breadcrumb side">
+				<li class="breadcrumb-item active"><a href="#"><b>Danh
+							sách Account</b></a></li>
+			</ul>
+
+			<div id="clock"></div>
+		</div>
+		<div class="row">
+			<!-- <div class="col-md-12">
+				<div class="card mb-2">
+					<div class="card-body">
+						<div class="col-sm-2">
+							<a class="btn btn-add btn-sm" href="/admin/account/edit" title="Thêm"><i
+								class="fas fa-plus"></i>Thêm account</a>
+						</div>
+
+					</div>
+				</div>
+			</div> -->
+		</div>
+		<div class="row p-3">
+    <div class="col-md-12">
+        <div class="tile">
+            <div class="tile-body">
+                <table class="table table-hover table-bordered" id="sampleTable">
+                    <thead>
+                        <tr>
+                            <th scope="col">User</th>
+                            <th scope="col">Tên đầy đủ</th>
+                            <th scope="col">Trạng thái kích hoạt</th>
+                            <th scope="col">Email</th>
+                            <th scope="col">Giới tính</th>
+                            <th scope="col">Phone</th>
+                            <th scope="col">Role</th>
+                            <th scope="col">Chức năng</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr th:each="item : ${accountList}">
+                            <td th:text="${item.username}"></td>
+                            <td th:text="${item.fullname}"></td>
+                            <td th:text="${item.isEnabled}"></td>
+                            <td th:text="${item.email}"></td>
+                            <td th:if="${item.gender}" >Nam</td>
+                            <td th:if="!${item.gender}" >Nữ</td>
+                            <td th:text="${item.phone}"></td>
+                            <td th:text="${item.role}"></td>
+                            <td>
+                                <a class="btn btn-primary" th:href="@{'/manager/account/edit/' + ${item.id}}">Edit</a>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+	</main>
+	<!-- Essential javascripts for application to work-->
+	<script src="/js/jquery-3.2.1.min.js"></script>
+	<script src="/js/popper.min.js"></script>
+	<script src="/js/bootstrap.min.js"></script>
+	<script
+		src="//ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+	<script src="/src/jquery.table2excel.js"></script>
+	<script src="/js/main.js"></script>
+	<!-- The javascript plugin to display page loading on top-->
+	<script src="/js/plugins/pace.min.js"></script>
+	<!-- Page specific javascripts-->
+	<script
+		src="https://cdnjs.cloudflare.com/ajax/libs/jquery-confirm/3.3.2/jquery-confirm.min.js"></script>
+	<!-- Data table plugin-->
+	<script type="text/javascript"
+		src="/js/plugins/jquery.dataTables.min.js"></script>
+	<script type="text/javascript"
+		src="/js/plugins/dataTables.bootstrap.min.js"></script>
+	<script type="text/javascript">$('#sampleTable').DataTable();</script>
+	<script type="text/javascript" src="/js/time.js"></script>
+</body>
+
+</html>

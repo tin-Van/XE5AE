@@ -1,0 +1,392 @@
+<!DOCTYPE html>
+<html xmlns:th="https://www.thymeleaf.org"
+	xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity6">
+<head>
+<title>Route Manager</title>
+<meta charset="UTF-8">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/css/select2.min.css" rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/boxicons@latest/css/boxicons.min.css">
+    <link href="https://cdn.jsdelivr.net/npm/@ttskch/select2-bootstrap4-theme@1.5.2/dist/select2-bootstrap4.min.css" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="/css/main.css">
+     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.2/css/all.css">
+      <link rel="stylesheet" type="text/css"
+          href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/2.1.2/sweetalert.min.js"></script>
+     <link rel="stylesheet" type="text/css" href="/css/main.css">
+   
+
+</head>
+<body onload="time()" class="app sidebar-mini rtl" th:fragment="manager">
+
+	<div th:replace="~{/views/manager_items/header::header}"></div>
+	<div class="app-sidebar__overlay" data-toggle="sidebar"></div>
+	<div th:replace="~{/views/Route/side_bar::side_bar}"></div>
+	<main class="app-content">
+		<div class="row">
+			<div class="col-md-12">
+				<div class="app-title">
+					<ul class="app-breadcrumb breadcrumb">
+						<li class="breadcrumb-item"><a href="#"><b>Bảng tuyến
+									đường</b></a></li>
+					</ul>
+					<div id="clock"></div>
+				</div>
+			</div>
+		</div>
+		<div class="row">
+			<div class="card container">
+				<div class="card-body">
+					<form autocomplete="off" id="routeForm" th:object="${route}"
+						action="/manager/route" method="post">
+						<input type="hidden" th:field="*{id}"> 
+						<input type="hidden" th:field="*{name}">
+						<div class="row">
+							<div class="col-md-6 mb-3">
+								<label class="form-label" for="departureLocation">Điểm
+									đi:</label> <select class="form-select js-example-basic-single"
+									id="departureLocation" th:field="*{departure}"
+									style="width: 100%;" required>
+									<option th:each="items : ${locationArray}" th:value="${items.name}" th:text="${items.name}" ></option>
+								</select>
+							</div>
+							<div class="col-md-6 mb-3">
+								<label class="form-label" for="destinationLocation">Điểm
+									đến:</label> <select class="form-select js-example-basic-single"
+									id="destinationLocation" th:field="*{destination}"
+									style="width: 100%;" required>
+									<option th:each="items : ${locationArray}" th:value="${items.name}" th:text="${items.name}" ></option>
+								</select>
+							</div>
+						</div>
+						<div class="row">
+							<div class="col-md-12">
+								<div class="tile p-4">
+									<div class="tile-body">
+										<label for="stations">Trạm:</label>
+										<table class="table table-hover table-bordered"
+											id="sampleTable">
+											<thead>
+												<tr>
+													<th scope="col">Tên trạm</th>
+													<th scope="col">Địa điểm</th>
+													<th scope="col">Chi tiết</th>
+													<th>Chức năng</th>
+												</tr>
+											</thead>
+											<tbody>
+												<tr th:each="station : ${stations}" id="stationButtons">
+													<td th:text="${station.name}"></td>
+													<td th:text="${station.location.name}"></td>
+													<td th:text="${station.address}"></td>
+													<td>
+														<button type="button" class="btn btn-secondary w-100 mb-2"
+															th:value="${station.id}" onclick="toggleStation(this)">Chọn</button>
+													</td>
+												</tr>
+											</tbody>
+										</table>
+									</div>
+								</div>
+							</div>
+						</div>
+						<input type="hidden" id="selectedStations" name="selectedStations">
+						<div id="anime">
+							<div th:each="slist :${stationlist}">
+								<input type="hidden" th:value="${slist.id}" class="svalue">
+							</div>
+						</div>
+
+						<button type="submit" class="btn btn-primary"
+							onclick="return validateForm()">Save</button>
+						<button th:if="*{id}>0" type="button" class="btn btn-danger"
+							onclick="validateRemove()">Remove</button>
+					</form>
+				</div>
+			</div>
+		</div>
+	</main>
+
+	<!-- Essential javascripts for application to work-->
+	<script src="/js/jquery-3.2.1.min.js"></script>
+	<script src="/js/popper.min.js"></script>
+	<script src="/js/bootstrap.min.js"></script>
+	<script
+		src="//ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+	<script src="/src/jquery.table2excel.js"></script>
+	<script src="/js/main.js"></script>	
+	<script src="/js/plugins/pace.min.js"></script>
+
+	<script
+		src="https://cdnjs.cloudflare.com/ajax/libs/jquery-confirm/3.3.2/jquery-confirm.min.js"></script>
+	<script type="text/javascript"
+		src="/js/plugins/jquery.dataTables.min.js"></script>
+	<script type="text/javascript"
+		src="/js/plugins/dataTables.bootstrap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/js/select2.min.js"></script>
+	<script
+		src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+	<script th:inline="javascript">
+    $(document).ready(function() {
+      var locations = JSON.parse(/*[[${locations}]]*/);
+      var locationData = locations.map(location => ({
+        id : location.name,
+        text : location.name
+      }));
+      $('.js-example-basic-single').select2({
+    	width: '250px',
+        data : locationData,
+        placeholder : 'Chọn địa điểm',
+        allowClear : true
+      });
+    });
+  </script>
+  	<script type="text/javascript">
+		$(document).ready(function() {
+	    $('#sampleTable').DataTable( {
+	        "paging": false,      // Tắt phân trang
+	        "scrollCollapse": true, // Tự động điều chỉnh chiều cao của bảng
+	        "scrollY": "400px",   // Chiều cao cố định của bảng, thêm thanh cuộn nếu vượt quá
+	    } );
+	});
+	</script>
+	<script type="text/javascript">
+	$(document).ready(function() {
+		  // Use select2 on the select elements
+		  $('.js-example-basic-single').select2({
+		    width: '100%', // Make select width 100% of the parent container
+		    placeholder: 'Chọn địa điểm', // Set placeholder text
+		    allowClear: true // Allow clearing the selection
+		  });
+
+		  // Populate the select options dynamically (from the 'locations' object, for example)
+		  var locations = JSON.parse(/*[[${locations}]]*/);
+		  var locationData = locations.map(location => ({
+		    id: location.name,
+		    text: location.name
+		  }));
+
+		  $('#myInput').select2({
+		    data: locationData,
+		  });
+
+		  $('#myInput2').select2({
+		    data: locationData,
+		  });
+		});
+	    </script>
+	<script type="text/javascript" src="/js/time.js"></script>
+	<script th:inline="javascript" src="/js/sreach.js"></script>
+
+	<script th:inline="javascript">
+    /*<![CDATA[*/
+    var locations = JSON.parse(/*[[${locations}]]*/); // Phân tích chuỗi JSON
+    const locationData = locations.map(location => location.name); // Tháng
+    /* console.log(locationData); */
+    autocomplete(document.getElementById("myInput"), locationData);
+    autocomplete(document.getElementById("myInput2"), locationData); 
+    /*]]>*/
+</script>
+	<script type="text/javascript">
+	function validateForm() {
+	    // Validate các trường trong form
+	    let departure = document.getElementById("departureLocation").value.trim();
+	    let destination = document.getElementById("destinationLocation").value.trim();
+	    let selectedStations = document.getElementById("selectedStations").value.trim();
+
+	    if (departure === "") {
+	        swal("Error", "Vui lòng chọn điểm đi!", "warning");
+	        return false;
+	    }
+
+	    if (destination === "") {
+	        swal("Error", "Vui lòng chọn điểm đến!", "warning");
+	        return false;
+	    }
+
+	    if (departure === destination) {
+	        swal({
+	            title: "Lỗi",
+	            text: "Điểm đi và Điểm đến không được trùng nhau!",
+	            icon: "warning",
+	            button: "OK",
+	        });
+	        return false;
+	    }
+
+	    if (selectedStations === "") {
+	        swal("Error", "Vui lòng chọn ít nhất một trạm dừng!", "warning");
+	        return false;
+	    }
+
+	    return true;
+	}
+
+	function validateRemove() {
+	    // Hiển thị SweetAlert xác nhận trước khi xóa
+	    swal({
+	        title: "Xác nhận xóa",
+	        text: "Bạn có chắc chắn muốn xóa dữ liệu này? Thao tác không thể hoàn tác!",
+	        icon: "warning",
+	        buttons: {
+	            cancel: {
+	                text: "Hủy",
+	                visible: true,
+	                closeModal: true
+	            },
+	            confirm: {
+	                text: "Xác nhận",
+	                visible: true,
+	                closeModal: false // Chờ xử lý
+	            }
+	        },
+	        dangerMode: true
+	    }).then((willDelete) => {
+	        if (willDelete) {
+	            swal({
+	                title: "Đang xử lý...",
+	                text: "Đang xóa dữ liệu.",
+	                icon: "info",
+	                buttons: false,
+	                timer: 2000
+	            });
+
+	            // Gửi form đến URL xóa
+	            document.getElementById("routeForm").action = "/manager/route/remove";
+	            document.getElementById("routeForm").submit();
+	        } else {
+	            swal("Hủy", "Dữ liệu không bị xóa!", "info");
+	        }
+	    });
+	}
+
+	function toggleStation(button) {
+	    // Thay đổi trạng thái nút chọn trạm dừng
+	    button.classList.toggle('btn-secondary');
+	    button.classList.toggle('btn-success');
+
+	    let selectedStations = document.getElementById('selectedStations').value;
+	    let stationId = button.value;
+
+	    if (button.classList.contains('btn-success')) {
+	        selectedStations = selectedStations ? selectedStations + ',' + stationId : stationId;
+	    } else {
+	        let stationsArray = selectedStations.split(',');
+	        stationsArray = stationsArray.filter(item => item !== stationId);
+	        selectedStations = stationsArray.join(',');
+	    }
+
+	    document.getElementById('selectedStations').value = selectedStations;
+	}
+
+	function getvalueStation() {
+	    // Cập nhật danh sách trạm dừng đã chọn
+	    let stationInputs = document.querySelectorAll('#anime .svalue');
+	    let stationTable = document.querySelectorAll('table#sampleTable button');
+	    let selectedStationsInput = document.getElementById('selectedStations');
+	    let selectedStations = selectedStationsInput.value ? selectedStationsInput.value.split(',').filter(item => item !== "") : [];
+
+	    stationTable.forEach(button => {
+	        let stationButton = button.value;
+	        let isFound = Array.from(stationInputs).some(input => input.value === stationButton);
+
+	        if (isFound) {
+	            button.classList.remove('btn-secondary');
+	            button.classList.add('btn-success');
+
+	            if (!selectedStations.includes(stationButton)) {
+	                selectedStations.push(stationButton);
+	            }
+	        }
+	    });
+
+	    selectedStationsInput.value = selectedStations.join(',');
+	}
+
+	window.onload = function () {
+	    getvalueStation();
+	};
+</script>
+	<script type="text/javascript">
+      function toggleStation(button) {
+    	    button.classList.toggle('btn-secondary');
+    	    button.classList.toggle('btn-success');
+
+    	    var selectedStations = document.getElementById('selectedStations').value;
+    	    var stationId = button.value;
+
+    	    if (button.classList.contains('btn-success')) {
+    	        // Thêm trạm dừng vào danh sách
+    	        selectedStations = selectedStations ? selectedStations + ',' + stationId : stationId;
+    	    } else {
+    	        // Xóa trạm dừng khỏi danh sách
+    	        var stationsArray = selectedStations.split(',');
+    	        stationsArray = stationsArray.filter(item => item !== stationId);
+    	        selectedStations = stationsArray.join(',');
+    	    }
+
+    	    document.getElementById('selectedStations').value = selectedStations;
+    	}
+      function getvalueStation() {
+    	    var stationInputs = document.querySelectorAll('#anime .svalue');
+    	    var stationTable = document.querySelectorAll('table#sampleTable button');
+    	    var selectedStationsInput = document.getElementById('selectedStations');
+    	    var selectedStations = selectedStationsInput.value ? selectedStationsInput.value.split(',').filter(item => item !== "") : [];
+
+    	    stationTable.forEach(button => {
+    	        var stationButton = button.value;
+    	        var isFound = false;
+
+    	        stationInputs.forEach(input => {
+    	            var stationInput = input.value;
+    	            if (stationButton === stationInput) {
+    	                isFound = true;
+    	            }
+    	        });
+
+    	        if (isFound) {
+    	            button.classList.remove('btn-secondary');
+    	            button.classList.add('btn-success');
+
+    	            // Thêm stationId vào selectedStations nếu chưa tồn tại
+    	            if (!selectedStations.includes(stationButton)) {
+    	                selectedStations.push(stationButton);
+    	            }
+    	        }
+
+    	    });
+    	    // Cập nhật giá trị của input hidden
+    	    selectedStationsInput.value = selectedStations.join(','); 
+    	}
+      window.onload = function() {
+    	    /* markSelectedStations(); */
+    	    getvalueStation(); // Gọi hàm getvalueStation sau khi markSelectedStations
+    	};
+      function filterStations() {
+    	    var filter = document.getElementById("stationFilter").value.toUpperCase();
+    	    var buttons = document.getElementById("stationButtons").getElementsByTagName("button");
+
+    	    for (var i = 0; i < buttons.length; i++) {
+    	        var txtValue = buttons[i].textContent || buttons[i].innerText;
+    	        if (txtValue.toUpperCase().indexOf(filter) > -1) {
+    	            buttons[i].style.display = "";
+    	        } else {
+    	            buttons[i].style.display = "none";
+    	        }
+    	    }
+    	}
+
+    	// Gắn sự kiện input vào ô tìm kiếm
+    	document.getElementById("stationFilter").addEventListener("input", filterStations);
+    	
+    	
+
+    	// Gọi hàm markSelectedStations khi trang được tải
+    	
+      </script>
+	<script type="text/javascript">
+      	window.onload = getvalueStation;
+      </script>
+</body>
+</html>

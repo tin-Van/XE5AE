@@ -1,0 +1,108 @@
+/* Sử dụng biến CSS để dễ dàng thay đổi màu sắc */
+:root {
+  --primary-color: #007bff; /* Màu xanh dương */
+  --secondary-color: #6c757d; /* Màu xám */
+  --light-color: #f8f9fa; /* Màu xám nhạt */
+  --border-color: #ced4da; /* Màu xám cho viền */
+  --shadow-color: rgba(0, 0, 0, 0.1); /* Màu xám nhạt cho đổ bóng */
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+/*   font-family: "Arial", sans-serif; Sử dụng font-family rõ ràng hơn */
+  font-size: 16px;
+  line-height: 1.5;
+  color: var(--secondary-color);
+}
+
+.autocomplete {
+  position: relative;
+  display: inline-block;
+  margin-bottom: 20px; /* Thêm khoảng cách với phần tử bên dưới */
+}
+
+input {
+  border: 1px solid var(--border-color);
+  background-color: var(--light-color);
+  padding: 10px;
+  font-size: 16px;
+  width: 100%;
+  border-radius: 4px; /* Bo tròn góc */
+  transition: border-color 0.3s ease; /* Thêm hiệu ứng chuyển đổi mượt mà */
+}
+
+input:focus {
+  outline: none;
+  border-color: var(--primary-color);
+  box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25); /* Đổ bóng khi focus */
+}
+
+input[type="submit"] {
+  background-color: var(--primary-color);
+  color: #fff;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.3s ease; /* Thêm hiệu ứng chuyển đổi mượt mà */
+}
+
+input[type="submit"]:hover {
+  background-color: darken(var(--primary-color), 10%); /* Làm tối màu khi hover */
+}
+
+.autocomplete-items {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  right: 0;
+  z-index: 99;
+  border: 1px solid var(--border-color);
+  border-radius: 4px; /* Bo tròn góc */
+  background-color: #fff;
+  box-shadow: var(--shadow-color) 0px 2px 5px 0px; /* Thêm đổ bóng */
+  max-height: 200px; /* Giới hạn chiều cao tối đa */
+  overflow-y: auto; /* Thêm thanh cuộn dọc */
+}
+
+.autocomplete-items div {
+  padding: 10px;
+  cursor: pointer;
+  border-bottom: 1px solid var(--border-color);
+  transition: background-color 0.3s ease; /* Thêm hiệu ứng chuyển đổi mượt mà */
+}
+
+.autocomplete-items div:last-child {
+  border-bottom: none;
+}
+
+.autocomplete-items div:hover {
+  background-color: var(--light-color);
+}
+
+.autocomplete-active {
+  background-color: var(--primary-color) !important;
+  color: #ffffff;
+}
+
+/* CSS cho bảng */
+.location-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 10px; /* Thêm khoảng cách với tiêu đề */
+}
+
+.location-table th,
+.location-table td {
+  border: 1px solid var(--border-color);
+  padding: 8px;
+  text-align: left;
+}
+
+.location-table th {
+  background-color: var(--light-color);
+  font-weight: bold;
+}
